@@ -1,0 +1,69 @@
+.opposite .oppositeAvatar {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.opposite .oppositeAvatar img {
+    margin-top: 40px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+.opposite p {
+    font-family: "Lucida Console";
+    margin-top: 15px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.opposite .btn-user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.opposite .btn-user button {
+    margin-top: 15px;
+    margin-left: 10px;
+    border-radius : 5%;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 13px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.set-avatar {
+    margin-top: 20%;
+}
+
+.set-avatar .choose-avatar,.submit-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.set-avatar input {
+    width: 60%;
+}
+
+.set-avatar button {
+    margin-top: 20px;
+    border-radius : 5%;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 13px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}

@@ -1,0 +1,49 @@
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
+import Messenger from "./pages/messenger/Messenger";
+import { Route, Routes } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { loginByToken } from "./api/apiCall";
+
+function App() {
+  // const { user } = useContext(AuthContext);
+  const [user, setUser] = useState();
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      const res = await loginByToken(token);
+      console.log(res);
+      if ((res.statusCode = "200")) {
+        setUser(res.data);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log({ user });
+  return (
+    <>
+      <Routes>
+        <Route
+          path=""
+          element={
+            user ? <Messenger user={user} setUser={setUser} /> : <Register />
+          }
+        />
+      </Routes>
+      <Routes>
+        <Route path="/login" element={<Login setUser={setUser} />} />
+      </Routes>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+      </Routes>
+      <Routes>
+        <Route
+          path="/messenger"
+          element={<Messenger user={user} setUser={setUser} />}
+        />
+      </Routes>
+    </>
+  );
+}
+
+export default App;
