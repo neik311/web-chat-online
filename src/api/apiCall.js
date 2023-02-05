@@ -94,6 +94,17 @@ const updateUser = async (newUser) => {
   }
 };
 
+const getUser = async (textSearch) => {
+  try {
+    const res = await axios.get(
+      `${apiURL}/user/get-user?id=${textSearch}&email=${textSearch}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(`${error}`);
+  }
+};
+
 export {
   login,
   registerUser,
@@ -104,4 +115,5 @@ export {
   createMessages,
   getMessagesInGroup,
   updateUser,
+  getUser,
 };
