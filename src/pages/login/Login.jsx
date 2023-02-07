@@ -2,7 +2,7 @@ import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import { CircularProgress } from "@material-ui/core";
-import { login } from "../../api/apiCall";
+import { login } from "../../api/apiUser";
 
 export default function Login({ setUser }) {
   const email = useRef();

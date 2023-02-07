@@ -93,8 +93,7 @@ const InfoUser = ({ oppositeUser, user, setUser, setConversations }) => {
                 setStatusAvatar((statusAvatar) => !statusAvatar);
               }}
             >
-              {" "}
-              Set Avatar{" "}
+              Trang cá nhân
             </button>
           </div>
           {statusAvatar && (

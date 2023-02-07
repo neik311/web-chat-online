@@ -8,12 +8,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 import { apiURL } from "../../config/config";
-import {
-  getGroupByUser,
-  getUserByUsername,
-  getMessagesInGroup,
-  createMessages,
-} from "../../api/apiCall";
+import { getGroupByUser } from "../../api/apiGroup";
+import { getUserByUsername } from "../../api/apiUser";
+import { getMessagesInGroup, createMessages } from "../../api/apiMessages";
 
 const socket = io(apiURL);
 
@@ -25,10 +22,7 @@ const Messenger = ({ user, setUser }) => {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState("");
   const [onlineUsers, setOnlineUsers] = useState([]);
-  // console.log({ conversations });
-  console.log({ currentChat });
-  console.log({ messages });
-
+  console.log(conversations);
   useEffect(() => {
     //console.log("current chat ",currentChat)
     socket.on("getMessage", (data) => {
@@ -63,7 +57,7 @@ const Messenger = ({ user, setUser }) => {
     const fetchData = async () => {
       const res = await getGroupByUser(user?.id);
       if (res.statusCode === "200") {
-        setConversations(res.data);
+        setConversations(res.data || []);
       }
     };
     fetchData();
@@ -121,12 +115,12 @@ const Messenger = ({ user, setUser }) => {
     <>
       {user && (
         <>
-          <Topbar setConversations={setConversations} userId={user.id} />
+          <Topbar setConversations={setConversations} user={user} />
           <div className="messenger">
             <div className="chatMenu">
               <div className="chatMenuWrapper">
                 <ChatOnline onlineUsers={onlineUsers} currentId={user.id} />
-                <h3>all user</h3>
+                <h3>Tất cả kết nối</h3>
                 <input
                   placeholder="Search for friends"
                   className="chatMenuInput"
@@ -156,8 +150,8 @@ const Messenger = ({ user, setUser }) => {
                               messages={messages}
                               profilePicture={
                                 m.sender === user.id
-                                  ? user.profilePicture
-                                  : oppositeUser.profilePicture
+                                  ? user.avatar
+                                  : oppositeUser.avatar
                               }
                             />
                           );
@@ -182,7 +176,7 @@ const Messenger = ({ user, setUser }) => {
                   </>
                 ) : (
                   <span className="noCoverSactionText">
-                    open a conversation to start a chat
+                    Nhấn vào người dùng để bắt đầu nhắn tin
                   </span>
                 )}
               </div>

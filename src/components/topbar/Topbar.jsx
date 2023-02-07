@@ -1,14 +1,24 @@
 import "./topbar.css";
 import { Search, Person, Chat, Notifications } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { useContext, useState } from "react";
-import { createGroup } from "../../api/apiCall";
+import { createGroup } from "../../api/apiGroup";
 import AlertDialogSlide from "../modalUser/popupUser";
 
-export default function Topbar({ setConversations, userId }) {
-  const user = {};
+export default function Topbar({ setConversations, user }) {
   const [textSearch, setTextSearch] = useState("");
   const [popupUser, setPopupUser] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleSubmit = async (e) => {
     console.log(textSearch);
     e.preventDefault();
@@ -28,7 +38,7 @@ export default function Topbar({ setConversations, userId }) {
               window.location.reload();
             }}
           >
-            <span className="logo">Messenger</span>
+            <span className="logo">Nhắn tin online</span>
           </Link>
         </div>
         <div className="topbarCenter">
@@ -36,7 +46,7 @@ export default function Topbar({ setConversations, userId }) {
             <Search className="searchIcon" />
             <form onSubmit={handleSubmit}>
               <input
-                placeholder="connect to new users by username"
+                placeholder="nhập username hoặc email"
                 className="searchInput"
                 onChange={(e) => {
                   setTextSearch(e.target.value);
@@ -58,22 +68,28 @@ export default function Topbar({ setConversations, userId }) {
               <Notifications />
             </div>
           </div>
-          <Link
-            to="/"
-            onClick={() => {
-              window.location.reload();
+          <img
+            onClick={handleClick}
+            src={
+              user.avatar
+                ? user.avatar
+                : "http://hethongxephangtudong.net/public/client/images/no-avatar.png"
+            }
+            alt=""
+            className="topbarImg"
+          />
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
             }}
           >
-            <img
-              src={
-                user.profilePicture
-                  ? user.profilePicture
-                  : "http://hethongxephangtudong.net/public/client/images/no-avatar.png"
-              }
-              alt=""
-              className="topbarImg"
-            />
-          </Link>
+            <MenuItem onClick={handleClose}>Trang cá nhân</MenuItem>
+            <MenuItem onClick={handleClose}>Đăng xuất</MenuItem>
+          </Menu>
         </div>
       </div>
       {popupUser && (
@@ -81,7 +97,8 @@ export default function Topbar({ setConversations, userId }) {
           textSearch={textSearch}
           popupUser={popupUser}
           setPopupUser={setPopupUser}
-          userId={userId}
+          userId={user.id}
+          setConversations={setConversations}
         />
       )}
       {/* <AlertDialogSlide

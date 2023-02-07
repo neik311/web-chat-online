@@ -1,10 +1,8 @@
-import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import "./conversation.css";
-import { apiURL } from "../../config/config";
-import { getUserByUsername } from "../../api/apiCall";
+import { getUserByUsername } from "../../api/apiUser";
 
 const Conversation = ({ conversation, currentUser }) => {
   const [user, setUser] = useState({});

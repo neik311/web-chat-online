@@ -3,7 +3,7 @@ import Register from "./pages/register/Register";
 import Messenger from "./pages/messenger/Messenger";
 import { Route, Routes } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
-import { loginByToken } from "./api/apiCall";
+import { loginByToken } from "./api/apiUser";
 
 function App() {
   // const { user } = useContext(AuthContext);
@@ -39,7 +39,9 @@ function App() {
       <Routes>
         <Route
           path="/messenger"
-          element={<Messenger user={user} setUser={setUser} />}
+          element={
+            user ? <Messenger user={user} setUser={setUser} /> : <Register />
+          }
         />
       </Routes>
     </>

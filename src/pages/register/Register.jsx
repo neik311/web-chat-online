@@ -1,9 +1,7 @@
-import axios from "axios";
 import { useRef } from "react";
 import "./register.css";
 import { useNavigate } from "react-router-dom";
-import { apiURL } from "../../config/config";
-import { registerUser } from "../../api/apiCall";
+import { registerUser } from "../../api/apiUser";
 
 export default function Register() {
   const username = useRef();

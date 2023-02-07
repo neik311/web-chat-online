@@ -5,15 +5,17 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import LinearProgress from "@mui/material/LinearProgress";
-import { getUser, createGroup } from "../../api/apiCall";
+import { getUser } from "../../api/apiUser";
+import {
+  createGroup,
+  getGroup,
+  deleteGroup,
+  getGroupByUser,
+} from "../../api/apiGroup";
+import { getBlockUser } from "../../api/apiUser";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -24,45 +26,68 @@ export default function AlertDialogSlide({
   popupUser,
   setPopupUser,
   userId,
+  setConversations,
 }) {
-  const [openLoading, setOpenLoading] = useState(false);
   const [error, setError] = useState("");
   const [foundUser, setFoundUser] = useState();
+  const [statusButton, setStatusButton] = useState([true, true]);
   useEffect(() => {
     const fetchData = async () => {
       const res = await getUser(textSearch);
-      if ((res.statusCode = "200")) {
-        setFoundUser(res.data);
+      if (res.statusCode !== "200") {
+        setFoundUser(null);
         return;
       }
-      setFoundUser(null);
+      // console.log(userId, " ", res.data.id);
+      const group = await getGroup(userId, res.data.id);
+      const blockUser = await getBlockUser(userId, res.data.id);
+      let newStatus = [true, true];
+      if (group.data) {
+        newStatus[0] = false;
+      }
+      if (blockUser.data) {
+        newStatus[1] = false;
+      }
+      setFoundUser(res.data);
+      setStatusButton(newStatus);
     };
     fetchData();
   }, []);
-  console.log(foundUser);
+  // console.log(foundUser);
 
   const handleClosePopup = () => {
     setPopupUser(false);
   };
-  const handleCreateGroup = async () => {
-    setOpenLoading(true);
-    const res = await createGroup(userId, foundUser.id);
-    setOpenLoading(false);
-    if (res.statusCode === "401") {
-      setError("bạn đã chặn người dùng này");
+  const handleGroup = async () => {
+    if (statusButton[0] === true) {
+      const res = await createGroup(userId, foundUser.id);
+      if (res.statusCode === "401") {
+        setError("bạn đã chặn người dùng này");
+        return;
+      }
+      if (res.statusCode === "402") {
+        setError("Người dùng này đã chặn bạn");
+        return;
+      }
+      if (res.statusCode === "403") {
+        setError("người dùng này đã được kết nối");
+        return;
+      }
+      if (res.statusCode === "200") {
+        setError("Tạo kết nối thành công");
+        setStatusButton([false, statusButton[1]]);
+        setConversations((await getGroupByUser(userId)).data);
+      }
       return;
     }
-    if (res.statusCode === "402") {
-      setError("Người dùng này đã chặn bạn");
-      return;
-    }
-    if (res.statusCode === "403") {
-      setError("người dùng này đã được kết nối");
-      return;
-    }
+    const res = await deleteGroup(userId, foundUser.id);
     if (res.statusCode === "200") {
-      setError("Tạo kết nối thành công");
+      setError("Hủy kết nối thành công");
+      setStatusButton([true, statusButton[1]]);
+      setConversations((await getGroupByUser(userId)).data);
+      return;
     }
+    setError("Đã xảy ra lỗi");
   };
 
   return (
@@ -94,11 +119,6 @@ export default function AlertDialogSlide({
             }
           />
         </Stack>
-        {/* <DialogTitle
-          sx={{ marginLeft: "auto", marginRight: "auto", fontSize: "25px" }}
-        >
-          {foundUser?.id || "user not found"}
-        </DialogTitle> */}
         <p
           style={{ marginLeft: "auto", marginRight: "auto", fontSize: "25px" }}
         >
@@ -114,45 +134,25 @@ export default function AlertDialogSlide({
             {foundUser?.describe}
           </DialogContentText>
         </DialogContent>
-        {!openLoading ? (
-          <DialogActions sx={{ minWidth: "230px" }}>
-            {foundUser && (
-              <>
-                <Button
-                  onClick={handleCreateGroup}
-                  sx={{ marginLeft: "auto", marginRight: "auto" }}
-                >
-                  Kết nối
-                </Button>
-                <Button
-                  onClick={handleCreateGroup}
-                  sx={{ marginLeft: "auto", marginRight: "auto" }}
-                >
-                  Chặn
-                </Button>{" "}
-              </>
-            )}
-          </DialogActions>
-        ) : (
-          <Box
-            sx={{
-              width: "100%",
-              height: "30px",
-              minWidth: "250px",
-              marginBottom: "10px",
-            }}
-          >
-            <LinearProgress />
-          </Box>
-        )}
-        <p
-          style={{
-            marginLeft: "auto",
-            marginRight: "auto",
-            color: "red",
-            fontSize: "15px",
-          }}
-        >
+        <DialogActions sx={{ minWidth: "230px" }}>
+          {foundUser && (
+            <>
+              <Button
+                onClick={handleGroup}
+                sx={{ marginLeft: "auto", marginRight: "auto" }}
+              >
+                {statusButton[0] === true ? "Kết nối" : "Huỷ kết nối"}
+              </Button>
+              <Button
+                onClick={handleGroup}
+                sx={{ marginLeft: "auto", marginRight: "auto" }}
+              >
+                {statusButton[1] === true ? "Chặn" : "Hủy chặn"}
+              </Button>
+            </>
+          )}
+        </DialogActions>
+        <p style={{ marginLeft: "auto", marginRight: "auto", color: "red" }}>
           {error}
         </p>
       </Dialog>

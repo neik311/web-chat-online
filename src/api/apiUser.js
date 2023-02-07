@@ -31,52 +31,9 @@ const registerUser = async (user) => {
   } catch (err) {}
 };
 
-const createGroup = async (sender, receive) => {
-  try {
-    const res = await axios.post(`${apiURL}/group/create-group`, {
-      sender: sender,
-      receive: receive,
-    });
-    return res.data;
-  } catch (error) {
-    console.log(`${error}`);
-  }
-};
-
-const getGroupByUser = async (username) => {
-  try {
-    const res = await axios.get(`${apiURL}/group/get-group/${username}`);
-    return res.data;
-  } catch (error) {
-    console.log(`${error}`);
-  }
-};
-
 const getUserByUsername = async (username) => {
   try {
     const res = await axios.get(`${apiURL}/user/get-user?id=${username}`);
-    return res.data;
-  } catch (error) {
-    console.log(`${error}`);
-  }
-};
-
-const createMessages = async (groupId, messages, sender) => {
-  try {
-    const res = await axios.post(`${apiURL}/messages/create-messages`, {
-      groupId: groupId,
-      messages: messages,
-      sender: sender,
-    });
-    return res.data;
-  } catch (error) {
-    console.log(`${error}`);
-  }
-};
-
-const getMessagesInGroup = async (groupId) => {
-  try {
-    const res = await axios.get(`${apiURL}/messages/get-messages/${groupId}`);
     return res.data;
   } catch (error) {
     console.log(`${error}`);
@@ -105,15 +62,27 @@ const getUser = async (textSearch) => {
   }
 };
 
+const getBlockUser = async (blocker, blocked) => {
+  try {
+    console.log({
+      blocker: blocker,
+      blocked: blocked,
+    });
+    const res = await axios.get(
+      `${apiURL}/block-user/get-block-user/${blocker}/${blocked}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(`${error}`);
+  }
+};
+
 export {
   login,
   registerUser,
   loginByToken,
-  createGroup,
-  getGroupByUser,
   getUserByUsername,
-  createMessages,
-  getMessagesInGroup,
   updateUser,
   getUser,
+  getBlockUser,
 };
