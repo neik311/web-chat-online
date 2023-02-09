@@ -1,6 +1,7 @@
 import "./topbar.css";
 import { Search, Person, Chat, Notifications } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,13 +9,19 @@ import { useContext, useState } from "react";
 import { createGroup } from "../../api/apiGroup";
 import AlertDialogSlide from "../modalUser/popupUser";
 
-export default function Topbar({ setConversations, user }) {
+export default function Topbar({ setConversations, user, setUser }) {
   const [textSearch, setTextSearch] = useState("");
   const [popupUser, setPopupUser] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+  const handleLogout = () => {
+    localStorage.setItem("token", "");
+    setUser("");
+    navigate("/login");
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -87,8 +94,14 @@ export default function Topbar({ setConversations, user }) {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Trang cá nhân</MenuItem>
-            <MenuItem onClick={handleClose}>Đăng xuất</MenuItem>
+            <MenuItem
+              onClick={() => {
+                navigate("/profile");
+              }}
+            >
+              Trang cá nhân
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
           </Menu>
         </div>
       </div>

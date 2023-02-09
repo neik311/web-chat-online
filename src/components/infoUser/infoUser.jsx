@@ -4,7 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../config/firebase";
 import { useState } from "react";
-const InfoUser = ({ oppositeUser, user, setUser, setConversations }) => {
+import { deleteGroup, getGroupByUser } from "../../api/apiGroup";
+import { createBlockUser } from "../../api/apiBlock";
+const InfoUser = ({
+  oppositeUser,
+  user,
+  setUser,
+  setConversations,
+  setOppositeUser,
+}) => {
   //console.log("member ",currentChat.members)
   //console.log("oppositeUser ", oppositeUser)
   const [statusAvatar, setStatusAvatar] = useState(false);
@@ -18,9 +26,21 @@ const InfoUser = ({ oppositeUser, user, setUser, setConversations }) => {
   };
 
   const handleCancelConnect = async () => {
-    // await deleteConversations(oppositeUser._id, user._id);
-    // setConversations(await getConversations(user._id));
-    // window.location.reload();
+    const res = await deleteGroup(user?.id, oppositeUser?.id);
+    if (res.statusCode === "200") {
+      setConversations((await getGroupByUser(user?.id)).data);
+      setOppositeUser({});
+    }
+    return;
+  };
+
+  const handleBlockUser = async () => {
+    const res = await createBlockUser(user?.id, oppositeUser?.id);
+    if (res.statusCode === "200") {
+      setConversations((await getGroupByUser(user?.id)).data);
+      setOppositeUser({});
+    }
+    return;
   };
 
   const changeHandler = (event) => {
@@ -68,7 +88,7 @@ const InfoUser = ({ oppositeUser, user, setUser, setConversations }) => {
           <p>{oppositeUser.firstName + " " + oppositeUser.lastName}</p>
           <div className="btn-user">
             <button onClick={handleCancelConnect}> Huỷ kết nối </button>
-            <button> Chặn kết nối </button>
+            <button onClick={handleBlockUser}> Chặn kết nối </button>
           </div>
         </div>
       ) : (

@@ -1,8 +1,9 @@
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Messenger from "./pages/messenger/Messenger";
+import Profile from "./pages/profile/profile";
 import { Route, Routes } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { loginByToken } from "./api/apiUser";
 
 function App() {
@@ -35,6 +36,12 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/register" element={<Register />} />
+      </Routes>
+      <Routes>
+        <Route
+          path="/profile"
+          element={<Profile user={user} setUser={setUser} />}
+        />
       </Routes>
       <Routes>
         <Route

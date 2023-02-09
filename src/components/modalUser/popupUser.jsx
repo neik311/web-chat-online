@@ -15,7 +15,11 @@ import {
   deleteGroup,
   getGroupByUser,
 } from "../../api/apiGroup";
-import { getBlockUser } from "../../api/apiUser";
+import {
+  getBlockUser,
+  createBlockUser,
+  deleteBlockUser,
+} from "../../api/apiBlock";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -90,6 +94,29 @@ export default function AlertDialogSlide({
     setError("Đã xảy ra lỗi");
   };
 
+  const handleBlock = async () => {
+    if (statusButton[1] === true) {
+      const res = await createBlockUser(userId, foundUser.id);
+      if (res.statusCode === "400") {
+        setError("Đã xảy ra lỗi");
+        return;
+      }
+      if (res.statusCode === "200") {
+        setError("Chặn thành công");
+        setStatusButton([true, false]);
+        setConversations((await getGroupByUser(userId)).data);
+      }
+      return;
+    }
+    const res = await deleteBlockUser(userId, foundUser.id);
+    if (res.statusCode === "200") {
+      setError("Hủy chặn thành công");
+      setStatusButton([statusButton[0], false]);
+      return;
+    }
+    setError("Đã xảy ra lỗi");
+  };
+
   return (
     <div>
       <Dialog
@@ -144,7 +171,7 @@ export default function AlertDialogSlide({
                 {statusButton[0] === true ? "Kết nối" : "Huỷ kết nối"}
               </Button>
               <Button
-                onClick={handleGroup}
+                onClick={handleBlock}
                 sx={{ marginLeft: "auto", marginRight: "auto" }}
               >
                 {statusButton[1] === true ? "Chặn" : "Hủy chặn"}

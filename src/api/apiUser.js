@@ -61,22 +61,6 @@ const getUser = async (textSearch) => {
     console.log(`${error}`);
   }
 };
-
-const getBlockUser = async (blocker, blocked) => {
-  try {
-    console.log({
-      blocker: blocker,
-      blocked: blocked,
-    });
-    const res = await axios.get(
-      `${apiURL}/block-user/get-block-user/${blocker}/${blocked}`
-    );
-    return res.data;
-  } catch (error) {
-    console.log(`${error}`);
-  }
-};
-
 export {
   login,
   registerUser,
@@ -84,5 +68,4 @@ export {
   getUserByUsername,
   updateUser,
   getUser,
-  getBlockUser,
 };

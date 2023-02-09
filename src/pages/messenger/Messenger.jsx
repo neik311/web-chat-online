@@ -4,8 +4,7 @@ import Conversation from "../../components/conversations/Conversation";
 import Message from "../../components/message/Message";
 import ChatOnline from "../../components/chatOnline/chatOnline";
 import InfoUser from "../../components/infoUser/infoUser";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { apiURL } from "../../config/config";
 import { getGroupByUser } from "../../api/apiGroup";
@@ -115,7 +114,11 @@ const Messenger = ({ user, setUser }) => {
     <>
       {user && (
         <>
-          <Topbar setConversations={setConversations} user={user} />
+          <Topbar
+            setConversations={setConversations}
+            user={user}
+            setUser={setUser}
+          />
           <div className="messenger">
             <div className="chatMenu">
               <div className="chatMenuWrapper">
@@ -188,6 +191,7 @@ const Messenger = ({ user, setUser }) => {
                   user={user}
                   setUser={setUser}
                   setConversations={setConversations}
+                  setOppositeUser={setOppositeUser}
                 />
               </div>
             </div>
