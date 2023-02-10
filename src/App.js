@@ -11,10 +11,11 @@ function App() {
   const [user, setUser] = useState();
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      const res = await loginByToken(token);
+      const refreshToken = localStorage.getItem("refreshToken");
+      const res = await loginByToken(refreshToken);
       console.log(res);
       if ((res.statusCode = "200")) {
+        localStorage.setItem("accessToken", res.data.accessToken);
         setUser(res.data);
       }
     };

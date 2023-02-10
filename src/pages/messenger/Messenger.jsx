@@ -21,7 +21,7 @@ const Messenger = ({ user, setUser }) => {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState("");
   const [onlineUsers, setOnlineUsers] = useState([]);
-  console.log(conversations);
+  // console.log(conversations);
   useEffect(() => {
     //console.log("current chat ",currentChat)
     socket.on("getMessage", (data) => {

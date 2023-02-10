@@ -85,6 +85,7 @@ export default function AlertDialogSlide({
       return;
     }
     const res = await deleteGroup(userId, foundUser.id);
+    console.log(res);
     if (res.statusCode === "200") {
       setError("Hủy kết nối thành công");
       setStatusButton([true, statusButton[1]]);

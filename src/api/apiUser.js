@@ -13,10 +13,10 @@ const login = async (email, password) => {
   }
 };
 
-const loginByToken = async (token) => {
+const loginByToken = async (refreshToken) => {
   try {
     const res = await axios.post(`${apiURL}/user/login-token`, {
-      token: token,
+      refreshToken: refreshToken,
     });
     return res.data;
   } catch (error) {
@@ -43,7 +43,7 @@ const getUserByUsername = async (username) => {
 const updateUser = async (newUser) => {
   try {
     const res = await axios.put(`${apiURL}/user/update-user`, newUser, {
-      authorization: localStorage.getItem("token"),
+      headers: { access_token: localStorage.getItem("accessToken") },
     });
     return res.data;
   } catch (error) {

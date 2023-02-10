@@ -15,7 +15,8 @@ export default function Login({ setUser }) {
     let res = await login(email.current.value, password.current.value);
     console.log("new user ", res);
     if ((res.statusCode = "200")) {
-      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("accessToken", res.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.refreshToken);
       setUser(res.data);
       navigate("/messenger");
     }
