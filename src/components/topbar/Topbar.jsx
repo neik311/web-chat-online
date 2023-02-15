@@ -19,7 +19,8 @@ export default function Topbar({ setConversations, user, setUser }) {
     setAnchorEl(event.currentTarget);
   };
   const handleLogout = () => {
-    localStorage.setItem("token", "");
+    localStorage.setItem("accessToken", "");
+    localStorage.setItem("refreshToken", "");
     setUser("");
     navigate("/login");
   };

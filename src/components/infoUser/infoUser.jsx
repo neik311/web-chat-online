@@ -20,7 +20,8 @@ const InfoUser = ({
   const [stateFile, setStateFile] = useState("Submit");
   const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.setItem("token", "");
+    localStorage.setItem("accessToken", "");
+    localStorage.setItem("refreshToken", "");
     setUser("");
     navigate("/login");
   };

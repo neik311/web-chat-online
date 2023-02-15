@@ -44,7 +44,6 @@ const deleteBlockUser = async (blocker, blocked) => {
     const fetchData = async () => {
       const res = await axios.delete(
         `${apiURL}/block-user/delete-block-user/${blocker}/${blocked}`,
-        {},
         { headers: { access_token: localStorage.getItem("accessToken") } }
       );
       return res.data;

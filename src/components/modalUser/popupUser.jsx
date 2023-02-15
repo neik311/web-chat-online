@@ -110,9 +110,10 @@ export default function AlertDialogSlide({
       return;
     }
     const res = await deleteBlockUser(userId, foundUser.id);
+    console.log(res);
     if (res.statusCode === "200") {
       setError("Hủy chặn thành công");
-      setStatusButton([statusButton[0], false]);
+      setStatusButton([statusButton[0], true]);
       return;
     }
     setError("Đã xảy ra lỗi");
