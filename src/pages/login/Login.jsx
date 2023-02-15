@@ -1,20 +1,21 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import { CircularProgress } from "@material-ui/core";
 import { login } from "../../api/apiUser";
+import TextField from "@mui/material/TextField";
 
 export default function Login({ setUser }) {
-  const email = useRef();
-  const password = useRef();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const isFetching = false;
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    let res = await login(email.current.value, password.current.value);
+    let res = await login(email, password);
     console.log("new user ", res);
-    if ((res.statusCode = "200")) {
+    if (res.statusCode === "200") {
       localStorage.setItem("accessToken", res.data.accessToken);
       localStorage.setItem("refreshToken", res.data.refreshToken);
       setUser(res.data);
@@ -26,36 +27,48 @@ export default function Login({ setUser }) {
     <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
-          <h3 className="loginLogo">messenger</h3>
+          <h3 className="loginLogo">Nhắn tin online</h3>
           <span className="loginDesc">
-            Connect with friends and the world around you on Messenger.
+            Đăng nhập vào ứng để kết nối đến mọi người.
           </span>
         </div>
         <div className="loginRight">
-          <form className="loginBox" onSubmit={handleLogin}>
-            <input
-              placeholder="Email"
+          <form
+            className="loginBox"
+            onSubmit={handleLogin}
+            style={{ height: "400px" }}
+          >
+            <TextField
+              required
               type="text"
-              required
-              className="loginInput"
-              ref={email}
+              id="outlined-basic"
+              label="Username/Email"
+              variant="outlined"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
-            <input
-              placeholder="Password"
-              type="password"
+            <TextField
               required
+              type="password"
+              id="outlined-basic"
+              label="Password"
+              variant="outlined"
               minLength="6"
-              className="loginInput"
-              ref={password}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
             />
             <button className="loginButton" type="submit" disabled={isFetching}>
               {isFetching ? (
                 <CircularProgress color="white" size="20px" />
               ) : (
-                "Log In"
+                "Đăng nhập"
               )}
             </button>
-            <span className="loginForgot">Forgot Password?</span>
+            <span className="loginForgot">Quên mật khẩu?</span>
             <button
               className="loginRegisterButton"
               onClick={() => {
@@ -66,7 +79,7 @@ export default function Login({ setUser }) {
                 <CircularProgress color="white" size="20px" />
               ) : (
                 <p style={{ color: "white", textDecoration: "none" }}>
-                  Create a New Account
+                  Đăng ký
                 </p>
               )}
             </button>

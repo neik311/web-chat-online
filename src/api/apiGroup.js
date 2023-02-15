@@ -16,7 +16,7 @@ const createGroup = async (sender, receive) => {
       return res.data;
     };
     let data = await fetchData();
-    console.log(data);
+    // console.log(data);
     if (data.statusCode === "410") {
       const user = await loginByToken(localStorage.getItem("refreshToken"));
       localStorage.setItem("accessToken", user.data.accessToken);
@@ -62,7 +62,7 @@ const deleteGroup = async (sender, receive) => {
       return res.data;
     };
     let data = await fetchData();
-    console.log(data);
+    // console.log(data);
     if (data.statusCode === "410") {
       const user = await loginByToken(localStorage.getItem("refreshToken"));
       localStorage.setItem("accessToken", user.data.accessToken);

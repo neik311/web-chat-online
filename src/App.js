@@ -5,9 +5,11 @@ import Profile from "./pages/profile/profile";
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { loginByToken } from "./api/apiUser";
+import OpenNotifi from "./hooks/openNotifi";
 
 function App() {
   // const { user } = useContext(AuthContext);
+  const [notifi, setNotifi] = useState([null]);
   const [user, setUser] = useState();
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +17,7 @@ function App() {
       const res = await loginByToken(refreshToken);
       console.log(res);
       if ((res.statusCode = "200")) {
-        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("accessToken", res.data?.accessToken);
         setUser(res.data);
       }
     };
@@ -36,7 +38,10 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser} />} />
       </Routes>
       <Routes>
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/register"
+          element={<Register notifi={notifi} setNotifi={setNotifi} />}
+        />
       </Routes>
       <Routes>
         <Route
@@ -48,10 +53,11 @@ function App() {
         <Route
           path="/messenger"
           element={
-            user ? <Messenger user={user} setUser={setUser} /> : <Register />
+            user ? <Messenger user={user} setUser={setUser} /> : <Login />
           }
         />
       </Routes>
+      {notifi[0] && <OpenNotifi notifi={notifi} setNotifi={setNotifi} />}
     </>
   );
 }
