@@ -16,7 +16,7 @@ function App() {
       const refreshToken = localStorage.getItem("refreshToken");
       const res = await loginByToken(refreshToken);
       console.log(res);
-      if ((res.statusCode = "200")) {
+      if ((res?.statusCode === "200")) {
         localStorage.setItem("accessToken", res.data?.accessToken);
         setUser(res.data);
       }

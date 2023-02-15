@@ -8,6 +8,11 @@ import TabPanel from "@mui/lab/TabPanel";
 import Avatar from "@mui/material/Avatar";
 import InfoPersonal from "../../components/profile/infoPersonal";
 import "./profile.css";
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+
+
+
 
 const Profile = ({ user, setUser }) => {
   const [value, setValue] = React.useState("1");
@@ -68,7 +73,36 @@ const Profile = ({ user, setUser }) => {
           <TabPanel value="1">
             <InfoPersonal user={user} setUser={setUser} />
           </TabPanel>
-          <TabPanel value="2">Người dùng đã chặn</TabPanel>
+          <TabPanel value="2">
+            <ul className="block-list">
+              <li className="user-block">
+                <div className="user-block-list">
+                  <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg"  />
+                  <h3>nameeee</h3>
+                  <Button variant="contained" style={{background:"red"}} >Contained</Button>
+                  </div> 
+              </li>
+              <li className="user-block">
+                <div className="user-block-list">
+                  <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg"  />
+                  <h3>nameeee</h3>
+                  <Button variant="contained" style={{background:"red"}} >Contained</Button>
+                  </div> 
+              </li><li className="user-block">
+                <div className="user-block-list">
+                  <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg"  />
+                  <h3>nameeeoidjoaijoqijie</h3>
+                  <Button variant="contained" style={{background:"red"}} >Contained</Button>
+                  </div> 
+              </li><li className="user-block">
+                <div className="user-block-list">
+                  <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg"  />
+                  <h3>nee</h3>
+                  <Button variant="contained" style={{background:"red"}} >Contained</Button>
+                  </div> 
+              </li>
+            </ul>
+          </TabPanel>
         </TabContext>
       </Box>
     </>
