@@ -42,10 +42,19 @@ const getUserByUsername = async (username) => {
 
 const updateUser = async (newUser) => {
   try {
-    const res = await axios.put(`${apiURL}/user/update-user`, newUser, {
-      headers: { access_token: localStorage.getItem("accessToken") },
-    });
-    return res.data;
+    const fetchData = async () => {
+      const res = await axios.put(`${apiURL}/user/update-user`, newUser, {
+        headers: { access_token: localStorage.getItem("accessToken") },
+      });
+      return res.data;
+    };
+    let data = await fetchData();
+    if (data.statusCode === "410") {
+      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      localStorage.setItem("accessToken", user.data.accessToken);
+      data = await fetchData();
+    }
+    return data;
   } catch (error) {
     console.log(`${error}`);
   }

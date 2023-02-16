@@ -3,3 +3,10 @@
   height: 400px;
   background-image: url("https://cdn.le-vpn.com/wp-content/uploads/2020/03/Online-chat-rooms-1200x628-1.png");
 }
+.user-block-list{
+  display: flex;
+  justify-content: space-between;
+  border: 1px black solid;
+  border-radius: 5px;
+  margin-top: 3px;
+}

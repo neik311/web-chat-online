@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,6 +9,7 @@ import Slide from "@mui/material/Slide";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { getUser } from "../../api/apiUser";
+import { NotifiContext } from "../../context/notifiContext";
 import {
   createGroup,
   getGroup,
@@ -32,9 +33,9 @@ export default function AlertDialogSlide({
   userId,
   setConversations,
 }) {
-  const [error, setError] = useState("");
   const [foundUser, setFoundUser] = useState();
   const [statusButton, setStatusButton] = useState([true, true]);
+  const { notifi, setNotifi } = useContext(NotifiContext);
   useEffect(() => {
     const fetchData = async () => {
       const res = await getUser(textSearch);
@@ -65,58 +66,46 @@ export default function AlertDialogSlide({
   const handleGroup = async () => {
     if (statusButton[0] === true) {
       const res = await createGroup(userId, foundUser.id);
-      if (res.statusCode === "401") {
-        setError("bạn đã chặn người dùng này");
-        return;
-      }
-      if (res.statusCode === "402") {
-        setError("Người dùng này đã chặn bạn");
-        return;
-      }
-      if (res.statusCode === "403") {
-        setError("người dùng này đã được kết nối");
-        return;
-      }
       if (res.statusCode === "200") {
-        setError("Tạo kết nối thành công");
         setStatusButton([false, statusButton[1]]);
         setConversations((await getGroupByUser(userId)).data);
+        setNotifi([res?.message, "success"]);
+        return;
       }
+      setNotifi([res?.message]);
       return;
     }
     const res = await deleteGroup(userId, foundUser.id);
     console.log(res);
     if (res.statusCode === "200") {
-      setError("Hủy kết nối thành công");
+      setNotifi(["Hủy kết nối thành công", "success"]);
       setStatusButton([true, statusButton[1]]);
       setConversations((await getGroupByUser(userId)).data);
       return;
     }
-    setError("Đã xảy ra lỗi");
+    setNotifi(["Đã xảy ra lỗi"]);
   };
 
   const handleBlock = async () => {
     if (statusButton[1] === true) {
       const res = await createBlockUser(userId, foundUser.id);
-      if (res.statusCode === "400") {
-        setError("Đã xảy ra lỗi");
-        return;
-      }
       if (res.statusCode === "200") {
-        setError("Chặn thành công");
+        setNotifi([`Chặn ${foundUser?.id} thành công`, "success"]);
         setStatusButton([true, false]);
         setConversations((await getGroupByUser(userId)).data);
+        return;
       }
+      setNotifi([res?.message]);
       return;
     }
     const res = await deleteBlockUser(userId, foundUser.id);
     console.log(res);
     if (res.statusCode === "200") {
-      setError("Hủy chặn thành công");
+      setNotifi([`Hủy Chặn ${foundUser?.id} thành công`, "success"]);
       setStatusButton([statusButton[0], true]);
       return;
     }
-    setError("Đã xảy ra lỗi");
+    setNotifi([res?.message]);
   };
 
   return (
@@ -181,9 +170,6 @@ export default function AlertDialogSlide({
             </>
           )}
         </DialogActions>
-        <p style={{ marginLeft: "auto", marginRight: "auto", color: "red" }}>
-          {error}
-        </p>
       </Dialog>
     </div>
   );

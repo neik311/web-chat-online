@@ -1,11 +1,13 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import { CircularProgress } from "@material-ui/core";
 import { login } from "../../api/apiUser";
 import TextField from "@mui/material/TextField";
+import { NotifiContext } from "../../context/notifiContext";
 
 export default function Login({ setUser }) {
+  const { notifi, setNotifi } = useContext(NotifiContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -20,7 +22,10 @@ export default function Login({ setUser }) {
       localStorage.setItem("refreshToken", res.data.refreshToken);
       setUser(res.data);
       navigate("/messenger");
+      setNotifi(["Đăng nhập thành công", "success"]);
+      return;
     }
+    setNotifi([res.message]);
   };
 
   return (
@@ -36,8 +41,9 @@ export default function Login({ setUser }) {
           <form
             className="loginBox"
             onSubmit={handleLogin}
-            style={{ height: "400px" }}
+            style={{ height: "400px", width: "500px" }}
           >
+            <h1 style={{ textAlign: "center" }}> Đăng nhập</h1>
             <TextField
               required
               type="text"
@@ -48,6 +54,7 @@ export default function Login({ setUser }) {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
+              sx={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}
             />
             <TextField
               required
@@ -60,13 +67,14 @@ export default function Login({ setUser }) {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              sx={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}
             />
-            <button className="loginButton" type="submit" disabled={isFetching}>
-              {isFetching ? (
-                <CircularProgress color="white" size="20px" />
-              ) : (
-                "Đăng nhập"
-              )}
+            <button
+              className="loginButton"
+              type="submit"
+              style={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}
+            >
+              Đăng nhập
             </button>
             <span className="loginForgot">Quên mật khẩu?</span>
             <button

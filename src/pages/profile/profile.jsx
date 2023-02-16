@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
@@ -7,10 +8,13 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Avatar from "@mui/material/Avatar";
 import InfoPersonal from "../../components/profile/infoPersonal";
+import ListBlock from "../../components/profile/listBlock";
+import back from "../../assets/go-back.png";
 import "./profile.css";
 
 const Profile = ({ user, setUser }) => {
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = useState("1");
+  const navigate = useNavigate("");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -18,11 +22,24 @@ const Profile = ({ user, setUser }) => {
   return (
     <>
       <div className="top">
+        <img
+          src={back}
+          style={{
+            marginLeft: "20px",
+            marginTop: "10px",
+            width: "60px",
+            height: "60px",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            navigate("/messenger");
+          }}
+        />
         <Avatar
           sx={{
             width: 180,
             height: 180,
-            top: "250px",
+            top: "180px",
             marginLeft: "auto",
             marginRight: "auto",
           }}
@@ -40,7 +57,7 @@ const Profile = ({ user, setUser }) => {
           marginTop: "40px",
         }}
       >
-        nvkien
+        {user?.id}
       </h2>
       <Box
         sx={{
@@ -68,7 +85,9 @@ const Profile = ({ user, setUser }) => {
           <TabPanel value="1">
             <InfoPersonal user={user} setUser={setUser} />
           </TabPanel>
-          <TabPanel value="2">Người dùng đã chặn</TabPanel>
+          <TabPanel value="2">
+            <ListBlock user={user} />
+          </TabPanel>
         </TabContext>
       </Box>
     </>

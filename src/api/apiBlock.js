@@ -24,7 +24,6 @@ const createBlockUser = async (blocker, blocked) => {
         },
         { headers: { access_token: localStorage.getItem("accessToken") } }
       );
-      console.log(res.data);
       return res.data;
     };
     let data = await fetchData();

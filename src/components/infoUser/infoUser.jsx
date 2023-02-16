@@ -3,7 +3,8 @@ import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../config/firebase";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { NotifiContext } from "../../context/notifiContext";
 import { deleteGroup, getGroupByUser } from "../../api/apiGroup";
 import { createBlockUser } from "../../api/apiBlock";
 const InfoUser = ({
@@ -13,9 +14,7 @@ const InfoUser = ({
   setConversations,
   setOppositeUser,
 }) => {
-  //console.log("member ",currentChat.members)
-  //console.log("oppositeUser ", oppositeUser)
-  const [statusAvatar, setStatusAvatar] = useState(false);
+  const { notifi, setNotifi } = useContext(NotifiContext);
   const [file, setFile] = useState();
   const [stateFile, setStateFile] = useState("Submit");
   const navigate = useNavigate();
@@ -24,6 +23,7 @@ const InfoUser = ({
     localStorage.setItem("refreshToken", "");
     setUser("");
     navigate("/login");
+    setNotifi(["Đăng xuất thành công", "acccess"]);
   };
 
   const handleCancelConnect = async () => {
@@ -31,7 +31,10 @@ const InfoUser = ({
     if (res.statusCode === "200") {
       setConversations((await getGroupByUser(user?.id)).data);
       setOppositeUser({});
+      setNotifi([`Hủy kết nối ${oppositeUser?.id} thành công`, "success"]);
+      return;
     }
+    setNotifi([res?.message]);
     return;
   };
 
@@ -40,7 +43,10 @@ const InfoUser = ({
     if (res.statusCode === "200") {
       setConversations((await getGroupByUser(user?.id)).data);
       setOppositeUser({});
+      setNotifi([`Chặn ${oppositeUser?.id} thành công`, "success"]);
+      return;
     }
+    setNotifi([res?.message]);
     return;
   };
 
@@ -111,23 +117,12 @@ const InfoUser = ({
             <button onClick={handleLogout}> Đăng xuất </button>
             <button
               onClick={() => {
-                setStatusAvatar((statusAvatar) => !statusAvatar);
+                navigate("/profile");
               }}
             >
               Trang cá nhân
             </button>
           </div>
-          {statusAvatar && (
-            <div className="set-avatar">
-              <div className="choose-avatar">
-                <input type="file" name="file" onChange={changeHandler} />
-              </div>
-
-              <div className="submit-button">
-                <button onClick={handleSubmission}>{stateFile}</button>
-              </div>
-            </div>
-          )}
         </div>
       )}
     </>

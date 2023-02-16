@@ -1,14 +1,14 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import "./register.css";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/apiUser";
 import TextField from "@mui/material/TextField";
 import { uploadFile } from "../../ultis/uploadFile";
-import OpenNotifi from "../../hooks/openNotifi";
+import { NotifiContext } from "../../context/notifiContext";
 import OpenLoading from "../../hooks/openLoading";
 
 export default function Register() {
-  const MAX_SIZE = useRef(1048576000);
+  const MAX_SIZE = useRef(5242880); // 5mb
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -17,12 +17,16 @@ export default function Register() {
   const [passwordAgain, setPasswordAgain] = useState("");
   const [describe, setDescribe] = useState("");
   const [avatar, setAvatar] = useState();
-  const [notifi, setNotifi] = useState([null]);
   const [loading, setLoading] = useState(false);
+  const { notifi, setNotifi } = useContext(NotifiContext);
   const navigate = useNavigate("");
 
   const handleClick = async (e) => {
     e.preventDefault();
+    if (username.length > 15) {
+      setNotifi(["Tên đăng nhập phải nhỏ hơn 15 ký tự"]);
+      return;
+    }
     if (password.length < 6 || password.length > 12) {
       setNotifi(["Mật khẩu từ 6 - 12 ký tự"]);
       return;
@@ -32,7 +36,7 @@ export default function Register() {
       return;
     }
     if (avatar.size > MAX_SIZE.current) {
-      setNotifi(["Ảnh phải nhỏ hơn 1 mb"]);
+      setNotifi(["Ảnh phải nhỏ hơn 5 mb"]);
       return;
     }
     setLoading(true);
@@ -48,12 +52,12 @@ export default function Register() {
     };
     const res = await registerUser(newUser);
     if (res.statusCode === "200") {
+      navigate("/login");
+      setLoading(false);
       setNotifi([
         "Đăng ký thành công, kiểm tra email để hoàn tất quá trình",
         "success",
       ]);
-      // navigate("/login");
-      setLoading(false);
       return;
     }
     setNotifi([res.message]);
@@ -72,6 +76,7 @@ export default function Register() {
           </div>
           <div className="loginRight">
             <form className="loginBox" onSubmit={handleClick}>
+              <h1 style={{ textAlign: "center" }}> Đăng ký tài khoản</h1>
               <div>
                 <TextField
                   id="outlined-basic"
@@ -82,10 +87,11 @@ export default function Register() {
                   onChange={(e) => {
                     setUsername(e.target.value);
                   }}
-                  sx={{ marginRight: "30px", width: "270px" }}
+                  sx={{ marginRight: "5%", width: "47%" }}
                 />
                 <TextField
                   id="outlined-basic-1"
+                  type="email"
                   label="Email"
                   required
                   variant="outlined"
@@ -93,7 +99,7 @@ export default function Register() {
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
-                  sx={{ width: "270px" }}
+                  sx={{ width: "47%" }}
                 />
               </div>
               <div>
@@ -106,7 +112,7 @@ export default function Register() {
                   onChange={(e) => {
                     setFirstName(e.target.value);
                   }}
-                  sx={{ marginRight: "30px", width: "270px" }}
+                  sx={{ marginRight: "5%", width: "47%" }}
                 />
                 <TextField
                   id="outlined-basic-3"
@@ -117,7 +123,7 @@ export default function Register() {
                   onChange={(e) => {
                     setLastName(e.target.value);
                   }}
-                  sx={{ width: "270px" }}
+                  sx={{ width: "47%" }}
                 />
               </div>
               <div>
@@ -132,7 +138,7 @@ export default function Register() {
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
-                  sx={{ marginRight: "30px", width: "270px" }}
+                  sx={{ marginRight: "5%", width: "47%" }}
                 />
                 <TextField
                   id="outlined-basic-5"
@@ -145,7 +151,7 @@ export default function Register() {
                   onChange={(e) => {
                     setPasswordAgain(e.target.value);
                   }}
-                  sx={{ width: "270px" }}
+                  sx={{ width: "47%" }}
                 />
               </div>
               <TextField
@@ -191,7 +197,6 @@ export default function Register() {
           </div>
         </div>
       </div>
-      {notifi[0] && <OpenNotifi notifi={notifi} setNotifi={setNotifi} />}
     </>
   );
 }
