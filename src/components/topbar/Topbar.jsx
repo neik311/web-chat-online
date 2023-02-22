@@ -64,15 +64,9 @@ export default function Topbar({ setConversations, user, setUser }) {
         </div>
         <div className="topbarRight">
           <div className="topbarIcons">
-            <div className="topbarIconItem">
-              <Person />
-            </div>
-            <div className="topbarIconItem">
-              <Chat />
-            </div>
-            <div className="topbarIconItem">
-              <Notifications />
-            </div>
+            <div className="topbarIconItem">{/* <Person /> */}</div>
+            <div className="topbarIconItem">{/* <Chat /> */}</div>
+            <div className="topbarIconItem">{/* <Notifications /> */}</div>
           </div>
           <img
             onClick={handleClick}
