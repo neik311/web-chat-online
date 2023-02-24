@@ -4,7 +4,7 @@ import Conversation from "../../components/conversations/Conversation";
 import Message from "../../components/message/Message";
 import ChatOnline from "../../components/chatOnline/chatOnline";
 import InfoUser from "../../components/infoUser/infoUser";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import { apiURL } from "../../config/config";
 import { getGroupByUser } from "../../api/apiGroup";
@@ -21,6 +21,7 @@ const Messenger = ({ user, setUser }) => {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState("");
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const prevMessage = useRef();
   // console.log(conversations);
   useEffect(() => {
     //console.log("current chat ",currentChat)
@@ -145,7 +146,7 @@ const Messenger = ({ user, setUser }) => {
                   <>
                     <div className="chatBoxTop">
                       {oppositeUser.id &&
-                        messages.map((m) => {
+                        messages.map((m, index) => {
                           return (
                             <Message
                               message={m}
@@ -156,6 +157,8 @@ const Messenger = ({ user, setUser }) => {
                                   ? user.avatar
                                   : oppositeUser.avatar
                               }
+                              index={index}
+                              key={index}
                             />
                           );
                         })}

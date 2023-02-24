@@ -1,42 +1,45 @@
 .message {
-    display: block;
-    flex-direction: colum;
-    margin-top: 20px;
+  display: block;
+  flex-direction: colum;
+  margin-top: 20px;
 }
 
 .messageTop {
-    display: flex;
+  display: flex;
 }
 
 .messageImg {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
 }
 
 .messageText {
-    padding: 10px;
-    margin: 10px;
-    border-radius: 20px;
-    background-color: rgb(225, 222, 222);
-    color: black;
-    max-width: 400px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  background-color: rgb(225, 222, 222);
+  color: black;
+  max-width: 400px;
 }
 
 .messageBottom {
-    font-size: 12px;
-    margin-top: 5px;
-    margin-left: 30px;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 30px;
 }
 
 .message.own {
-   align-self:flex-end!important;
-   /* background-color: aqua; */
+  align-self: flex-end !important;
+  /* background-color: aqua; */
 }
 
-.message.own .messageText{
-    background-color: #1877f2;
-    color: white;
+.message.own .messageText {
+  background-color: #1877f2;
+  color: white;
 }
