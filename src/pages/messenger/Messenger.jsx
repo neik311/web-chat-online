@@ -28,7 +28,7 @@ const Messenger = ({ user, setUser }) => {
       setArrivalMessage({
         sender: data.senderId,
         messages: data.text,
-        createdAt: Date.now(),
+        createAt: Date.now(),
       });
     });
   }, []);
@@ -89,7 +89,7 @@ const Messenger = ({ user, setUser }) => {
 
     try {
       const res = await createMessages(currentChat.id, newMessage, user.id);
-      if ((res.statusCode = "200")) {
+      if (res.statusCode === "200") {
         setMessages([...messages, res.data]);
       }
       setNewMessage("");
@@ -102,7 +102,7 @@ const Messenger = ({ user, setUser }) => {
     const fetchUser = async () => {
       let oppositeId = c.sender === user.id ? c.receive : c.sender;
       const res = await getUserByUsername(oppositeId);
-      if ((res.statusCode = "200")) {
+      if (res.statusCode === "200") {
         setOppositeUser(res.data);
       }
     };
