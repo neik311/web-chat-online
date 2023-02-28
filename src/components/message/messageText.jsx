@@ -30,18 +30,8 @@ const Message = ({ message, own, messages, profilePicture, index, key }) => {
                 className="messageText"
                 style={{ backgroundColor: "#417DC6", marginRight: "10px" }}
               >
-                <p style={{ color: "white", paddingRight: "15px" }}>
-                  {message.messages}
-                </p>
-                <p
-                  style={{
-                    fontSize: "10px",
-                    color: "#0431B4",
-                    width: "30px",
-                    marginLeft: "auto",
-                    marginRight: "5px",
-                  }}
-                >
+                <p style={styles.messageText}>{message.messages}</p>
+                <p style={styles.messageTimeSender}>
                   {moment(message.createAt).format("hh:mm")}
                 </p>
               </div>
@@ -55,25 +45,17 @@ const Message = ({ message, own, messages, profilePicture, index, key }) => {
                 alt=""
               />
             </div>
-            {/* <div className="messageBottom">{format(message.createAt)}</div> */}
           </div>
         </>
       ) : (
         <>
-          <div
-            ref={scrollref}
-            style={{
-              marginLeft: "5px",
-              // backgroundColor: "#417DC6",
-            }}
-          >
+          <div ref={scrollref} style={{ marginLeft: "5px" }}>
             <div className="messageTop">
               <img
                 className="messageImg"
                 src={
-                  profilePicture
-                    ? profilePicture
-                    : "http://hethongxephangtudong.net/public/client/images/no-avatar.png"
+                  profilePicture ||
+                  "http://hethongxephangtudong.net/public/client/images/no-avatar.png"
                 }
                 alt=""
               />
@@ -82,40 +64,37 @@ const Message = ({ message, own, messages, profilePicture, index, key }) => {
                 style={{ backgroundColor: "#E6E6E6" }}
               >
                 <p style={{ paddingRight: "15px" }}>{message.messages}</p>
-                <p
-                  style={{
-                    fontSize: "10px",
-                    color: "#424242",
-                    width: "30px",
-                    marginLeft: "auto",
-                    marginRight: "5px",
-                  }}
-                >
+                <p style={styles.messageTimeReceive}>
                   {moment(message.createAt).format("hh:mm")}
                 </p>
               </div>
             </div>
-            {/* <div className="messageBottom">{format(message.createAt)}</div> */}
           </div>
         </>
       )}
-      {/* { <div className={own ? "message own" : "message"} ref={scrollref}>
-      <div className="messageTop">
-        <img
-          className="messageImg"
-          src={
-            profilePicture
-              ? profilePicture
-              : "http://hethongxephangtudong.net/public/client/images/no-avatar.png"
-          }
-          alt=""
-        />
-        <p className="messageText">{message.messages}</p>
-      </div>
-      <div className="messageBottom">{format(message.createAt)}</div>
-    </div>} */}
     </>
   );
 };
 
 export default Message;
+
+let styles = {
+  messageText: {
+    color: "white",
+    paddingRight: "15px",
+  },
+  messageTimeSender: {
+    fontSize: "10px",
+    color: "#0431B4",
+    width: "30px",
+    marginLeft: "auto",
+    marginRight: "5px",
+  },
+  messageTimeReceive: {
+    fontSize: "10px",
+    color: "#424242",
+    width: "30px",
+    marginLeft: "auto",
+    marginRight: "5px",
+  },
+};

@@ -2,7 +2,7 @@ import axios from "axios";
 import { apiURL } from "../config/config";
 import { loginByToken } from "./apiUser";
 
-const createMessages = async (groupId, messages, sender) => {
+const createMessages = async (groupId, messages, sender, type) => {
   try {
     const fetchData = async () => {
       const res = await axios.post(
@@ -11,6 +11,7 @@ const createMessages = async (groupId, messages, sender) => {
           groupId: groupId,
           messages: messages,
           sender: sender,
+          type: type,
         },
         {
           headers: { access_token: localStorage.getItem("accessToken") },

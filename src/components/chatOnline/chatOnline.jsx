@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 
 const ChatOnline = ({ onlineUsers, currentId }) => {
   const [online, setOnline] = useState([]);
-  // console.log("old user ",onlineUsers)
   useEffect(() => {
     let newOnline = [];
     newOnline = onlineUsers.filter((u) => u.id !== currentId);
@@ -19,9 +18,9 @@ const ChatOnline = ({ onlineUsers, currentId }) => {
       <h3>Người dùng trực tuyến</h3>
       <div className="chatOnline">
         {onlineUsers.map(
-          (value) =>
+          (value, index) =>
             value.id !== currentId && (
-              <div className="chatOnlineFriend">
+              <div className="chatOnlineFriend" key={index}>
                 <div className="chatOnlineImgContainer">
                   <img
                     className="chatOnlineImg"
