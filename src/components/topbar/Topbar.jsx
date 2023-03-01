@@ -7,7 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useContext, useState } from "react";
 import AlertDialogSlide from "../modalUser/popupUser";
 
-export default function Topbar({ setConversations, user, setUser }) {
+export default function Topbar({ setConversations, user, setUser, socket }) {
   const [textSearch, setTextSearch] = useState("");
   const [popupUser, setPopupUser] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -105,6 +105,7 @@ export default function Topbar({ setConversations, user, setUser }) {
           setPopupUser={setPopupUser}
           userId={user.id}
           setConversations={setConversations}
+          socket={socket}
         />
       )}
       {/* <AlertDialogSlide

@@ -12,7 +12,7 @@ import InfoUser from "../../components/infoUser/infoUser";
 import { useEffect, useState, useRef, useContext } from "react";
 import { io } from "socket.io-client";
 import { apiURL } from "../../config/config";
-import { getGroupByUser } from "../../api/apiGroup";
+import { getGroupByUser, getGroup } from "../../api/apiGroup";
 import { getUserByUsername } from "../../api/apiUser";
 import { getMessagesInGroup, createMessages } from "../../api/apiMessages";
 import { uploadImage } from "../../ultis/uploadFile";
@@ -60,11 +60,34 @@ const Messenger = ({ user, setUser }) => {
     socket.emit("addUser", { id: user?.id, avatar: user?.avatar });
   }, []);
 
+  const fetchOnlineUser = async (users) => {
+    const newUser = [];
+    users.map(async (u) => {
+      const found = await getGroup(user.id, u.id);
+      if (found.data) {
+        newUser.push(u);
+        console.log(newUser);
+        setOnlineUsers(newUser);
+      }
+    });
+  };
+
   useEffect(() => {
     socket.on("getUsers", (users) => {
-      setOnlineUsers(users);
+      fetchOnlineUser(users);
     });
   }, []);
+
+  useEffect(() => {
+    socket.on("getConversations", async (users) => {
+      const res = await getGroupByUser(user?.id);
+      if (res.statusCode === "200") {
+        setConversations(res.data || []);
+      }
+      fetchOnlineUser(users);
+    });
+  }, []);
+  // console.log(onlineUsers);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -161,6 +184,7 @@ const Messenger = ({ user, setUser }) => {
             setConversations={setConversations}
             user={user}
             setUser={setUser}
+            socket={socket}
           />
           <div className="messenger">
             <div className="chatMenu">

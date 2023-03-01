@@ -32,10 +32,12 @@ export default function AlertDialogSlide({
   setPopupUser,
   userId,
   setConversations,
+  socket,
 }) {
   const [foundUser, setFoundUser] = useState();
   const [statusButton, setStatusButton] = useState([true, true]);
   const { notifi, setNotifi } = useContext(NotifiContext);
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await getUser(textSearch);
@@ -64,48 +66,61 @@ export default function AlertDialogSlide({
     setPopupUser(false);
   };
   const handleGroup = async () => {
+    //tạo kết nối
     if (statusButton[0] === true) {
       const res = await createGroup(userId, foundUser.id);
       if (res.statusCode === "200") {
         setStatusButton([false, statusButton[1]]);
         setConversations((await getGroupByUser(userId)).data);
         setNotifi([res?.message, "success"]);
+        handleConversations();
         return;
       }
       setNotifi([res?.message]);
       return;
     }
+    // hủy kết nối
     const res = await deleteGroup(userId, foundUser.id);
-    console.log(res);
     if (res.statusCode === "200") {
       setNotifi(["Hủy kết nối thành công", "success"]);
       setStatusButton([true, statusButton[1]]);
       setConversations((await getGroupByUser(userId)).data);
+      handleConversations();
       return;
     }
     setNotifi(["Đã xảy ra lỗi"]);
   };
 
   const handleBlock = async () => {
+    // chặn
     if (statusButton[1] === true) {
       const res = await createBlockUser(userId, foundUser.id);
       if (res.statusCode === "200") {
         setNotifi([`Chặn ${foundUser?.id} thành công`, "success"]);
         setStatusButton([true, false]);
         setConversations((await getGroupByUser(userId)).data);
+        handleConversations();
         return;
       }
       setNotifi([res?.message]);
       return;
     }
+    // hủy chặn
     const res = await deleteBlockUser(userId, foundUser.id);
-    console.log(res);
     if (res.statusCode === "200") {
       setNotifi([`Hủy Chặn ${foundUser?.id} thành công`, "success"]);
       setStatusButton([statusButton[0], true]);
+      handleConversations();
       return;
     }
     setNotifi([res?.message]);
+  };
+
+  const handleConversations = () => {
+    socket.emit("sendConversations", {
+      senderId: userId,
+      receiveId: foundUser.id,
+    });
   };
 
   return (
