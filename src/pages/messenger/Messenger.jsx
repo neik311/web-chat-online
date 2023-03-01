@@ -2,6 +2,7 @@ import "./messenger.css";
 import send from "../../assets/send.png";
 import CircularProgress from "@mui/material/CircularProgress";
 import image from "../../assets/image.png";
+import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Topbar from "../../components/topbar/Topbar";
 import Conversation from "../../components/conversations/Conversation";
@@ -35,7 +36,7 @@ const Messenger = ({ user, setUser }) => {
   const { setNotifi } = useContext(NotifiContext);
   // console.log(conversations);
   const inputFile = useRef(null);
-  console.log(image);
+  // console.log(image);
 
   useEffect(() => {
     //console.log("current chat ",currentChat)
@@ -187,14 +188,18 @@ const Messenger = ({ user, setUser }) => {
             socket={socket}
           />
           <div className="messenger">
-            <div className="chatMenu">
+            <div className="chatMenu" style={{ backgroundColor: "#EFFBFB" }}>
               <div className="chatMenuWrapper">
                 <ChatOnline onlineUsers={onlineUsers} currentId={user.id} />
                 <h3>Tất cả kết nối</h3>
-                <input
-                  placeholder="Search for friends"
-                  className="chatMenuInput"
-                />
+                <Box sx={{ width: "80%" }}>
+                  <TextField
+                    fullWidth
+                    id="standard-basic"
+                    label="Tìm kiếm"
+                    variant="standard"
+                  />
+                </Box>
                 {conversations.map((c, index) => (
                   <div
                     onClick={() => {
@@ -227,6 +232,8 @@ const Messenger = ({ user, setUser }) => {
                                       : oppositeUser.avatar
                                   }
                                   index={index}
+                                  userId={user.id}
+                                  setMessages={setMessages}
                                   key={index}
                                 />
                               ) : (
@@ -240,6 +247,8 @@ const Messenger = ({ user, setUser }) => {
                                       : oppositeUser.avatar
                                   }
                                   index={index}
+                                  userId={user.id}
+                                  setMessages={setMessages}
                                   key={index}
                                 />
                               )}
@@ -271,7 +280,7 @@ const Messenger = ({ user, setUser }) => {
                           <CircularProgress />
                         ) : !image ? (
                           <TextField
-                            label="fullWidth"
+                            label="Nhập tin nhắn"
                             id="fullWidth"
                             sx={{ width: "80%" }}
                             value={newMessage}
@@ -315,7 +324,7 @@ const Messenger = ({ user, setUser }) => {
                 )}
               </div>
             </div>
-            <div className="chatOnline">
+            <div className="chatOnline" style={{ backgroundColor: "#EFFBFB" }}>
               <div className="chatOnlineWrapper">
                 <InfoUser
                   oppositeUser={oppositeUser}

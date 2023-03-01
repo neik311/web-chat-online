@@ -5,17 +5,19 @@ import { loginByToken } from "./apiUser";
 const createMessages = async (groupId, messages, sender, type) => {
   try {
     const fetchData = async () => {
+      const body = {
+        groupId: groupId,
+        messages: messages,
+        sender: sender,
+        type: type,
+      };
+      const headers = {
+        headers: { access_token: localStorage.getItem("accessToken") },
+      };
       const res = await axios.post(
         `${apiURL}/messages/create-messages`,
-        {
-          groupId: groupId,
-          messages: messages,
-          sender: sender,
-          type: type,
-        },
-        {
-          headers: { access_token: localStorage.getItem("accessToken") },
-        }
+        body,
+        headers
       );
       return res.data;
     };
@@ -40,4 +42,30 @@ const getMessagesInGroup = async (groupId) => {
   }
 };
 
-export { createMessages, getMessagesInGroup };
+const deleteMessagesInGroup = async (sender, messagesId) => {
+  try {
+    const fetchData = async () => {
+      const body = { sender, messagesId };
+      const headers = {
+        headers: { access_token: localStorage.getItem("accessToken") },
+      };
+      const res = await axios.post(
+        `${apiURL}/messages/delete-messages`,
+        body,
+        headers
+      );
+      return res.data;
+    };
+    let data = await fetchData();
+    if (data.statusCode === "410") {
+      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      localStorage.setItem("accessToken", user.data.accessToken);
+      data = await fetchData();
+    }
+    return data;
+  } catch (error) {
+    console.log(`${error}`);
+  }
+};
+
+export { createMessages, getMessagesInGroup, deleteMessagesInGroup };

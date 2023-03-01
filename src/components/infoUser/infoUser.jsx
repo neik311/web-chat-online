@@ -49,38 +49,10 @@ const InfoUser = ({
     setNotifi([res?.message]);
     return;
   };
-
-  const changeHandler = (event) => {
-    setFile(event.target.files[0]);
-    console.log("file ", event.target.files[0]);
-  };
-  const handleSubmission = () => {
-    if (!file) return;
-    const sotrageRef = ref(storage, `avatar/${file.name}`);
-    const uploadTask = uploadBytesResumable(sotrageRef, file);
-
-    setStateFile("updating");
-    uploadTask.on(
-      "state_changed",
-      () => {},
-      (error) => console.log("err ", error),
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          console.log("File available at", downloadURL);
-          // await updateAvatarUser(user._id, downloadURL);
-          user.profilePicture = downloadURL;
-          localStorage.setItem("user", JSON.stringify(user));
-          setFile(null);
-          setStateFile("Submit");
-        });
-      }
-    );
-  };
-
   return (
     <>
       {oppositeUser.id ? (
-        <div className="opposite">
+        <div className="opposite" style={{ backgroundColor: "#EFFBFB" }}>
           <div className="oppositeAvatar">
             <img
               src={
@@ -99,7 +71,7 @@ const InfoUser = ({
           </div>
         </div>
       ) : (
-        <div className="opposite">
+        <div className="opposite" style={{ backgroundColor: "#EFFBFB" }}>
           <div className="oppositeAvatar">
             <img
               src={

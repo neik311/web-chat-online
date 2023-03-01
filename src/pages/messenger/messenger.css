@@ -1,82 +1,79 @@
 .messenger {
-    height: calc(100vh - 70px);
-    display: flex;
+  height: calc(100vh - 70px);
+  display: flex;
 }
-.chatBoxTop{
-    display: flex;
-    flex-direction: column;
+.chatBoxTop {
+  display: flex;
+  flex-direction: column;
 }
-.chatMenu{
-    flex: 2.5;
+.chatMenu {
+  flex: 2.5;
 }
-.chatMenuInput{
-    width: 90%;
-    padding: 10px 0;
-    border:  none;
-    border-bottom: 1px solid gray;
-
+.chatMenuInput {
+  width: 90%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid gray;
 }
 .chatBox {
-    flex: 5.5;
+  flex: 5.5;
 }
 
-.chatOnline{
-    flex: 2;
+.chatOnline {
+  flex: 2;
 }
 
-.chatMenuWrapper ,
-.chatBoxWrapper ,
+.chatMenuWrapper,
+.chatBoxWrapper,
 .chatOnlineWrapper {
-    padding: 10px;
-    height: 100%;
+  padding: 10px;
+  height: 100%;
 }
 
 .chatMenuWrapper h3 {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .chatBoxWrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.chatBoxWrapper .chatBoxTop{
-    height: 100%;
-    overflow-y: scroll;
-    padding-right: 10px;
- 
+.chatBoxWrapper .chatBoxTop {
+  height: 100%;
+  overflow-y: scroll;
+  padding-right: 10px;
 }
 
 .chatBoxWrapper .chatBoxBottom {
-    margin-bottom: 10px;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .chatBoxBottom .chatMessageInput {
-    margin-left: 5px;
-    width: 85%;
-    height: 80px;
-    padding: 10px;
-
+  margin-left: 5px;
+  width: 85%;
+  height: 80px;
+  padding: 10px;
 }
 .chatBoxBottom .chatSubmitButton {
-    width: 70px;
-    height: 40px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: teal;
-    color: white;
-    margin-left: 10px;
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: teal;
+  color: white;
+  margin-left: 10px;
 }
 
 .noCoverSactionText {
-     position: absolute;
-     top: 10%;
-     font-style: 50px;
-     color: gray 
+  position: absolute;
+  top: 10%;
+  font-style: 50px;
+  color: gray;
 }
