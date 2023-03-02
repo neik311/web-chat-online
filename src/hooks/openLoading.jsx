@@ -10,7 +10,7 @@ export default function OpenLoading() {
       direction="row"
     >
       <CircularProgress
-        color="success"
+        color="inherit"
         sx={{ marginLeft: "auto", marginRight: "auto" }}
       />
     </Stack>

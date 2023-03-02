@@ -33,6 +33,7 @@ const Messenger = ({ user, setUser }) => {
   const [image, setImage] = useState();
   const [base64image, setBase64image] = useState("");
   const [loading, setLoading] = useState(false);
+  const [textSearch, setTextSearch] = useState("");
   const { setNotifi } = useContext(NotifiContext);
   // console.log(conversations);
   const inputFile = useRef(null);
@@ -94,11 +95,22 @@ const Messenger = ({ user, setUser }) => {
     const fetchData = async () => {
       const res = await getGroupByUser(user?.id);
       if (res.statusCode === "200") {
-        setConversations(res.data || []);
+        if (textSearch === "") {
+          setConversations(res.data || []);
+          return;
+        }
+        const searchConversation = [];
+        res.data.map((c) => {
+          const friendId = c.sender === user.id ? c.receive : c.sender;
+          if (friendId.includes(textSearch) === true) {
+            searchConversation.push(c);
+          }
+        });
+        setConversations(searchConversation);
       }
     };
     fetchData();
-  }, [user?.id]);
+  }, [user?.id, textSearch]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -198,6 +210,10 @@ const Messenger = ({ user, setUser }) => {
                     id="standard-basic"
                     label="Tìm kiếm"
                     variant="standard"
+                    value={textSearch}
+                    onChange={(e) => {
+                      setTextSearch(e.target.value);
+                    }}
                   />
                 </Box>
                 {conversations.map((c, index) => (

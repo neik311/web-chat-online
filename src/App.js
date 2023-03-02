@@ -2,6 +2,7 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Messenger from "./pages/messenger/Messenger";
 import Profile from "./pages/profile/profile";
+import ForgotPassword from "./pages/forgotPassword/forgotPassword";
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { loginByToken } from "./api/apiUser";
@@ -44,6 +45,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/register" element={<Register />} />
+      </Routes>
+      <Routes>
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
       <Routes>
         <Route

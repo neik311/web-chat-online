@@ -31,6 +31,17 @@ const registerUser = async (user) => {
   } catch (err) {}
 };
 
+const forgotPassword = async (email, password) => {
+  try {
+    const body = {
+      email,
+      password,
+    };
+    const res = await axios.post(`${apiURL}/user/forgot-password`, body);
+    return res.data;
+  } catch (err) {}
+};
+
 const getUserByUsername = async (username) => {
   try {
     const res = await axios.get(`${apiURL}/user/get-user?id=${username}`);
@@ -77,4 +88,5 @@ export {
   getUserByUsername,
   updateUser,
   getUser,
+  forgotPassword,
 };
