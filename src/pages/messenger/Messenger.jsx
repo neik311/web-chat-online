@@ -11,7 +11,6 @@ import MessageImage from "../../components/message/messageImage";
 import ChatOnline from "../../components/chatOnline/chatOnline";
 import InfoUser from "../../components/infoUser/infoUser";
 import { useEffect, useState, useRef, useContext } from "react";
-import { io } from "socket.io-client";
 import { apiURL } from "../../config/config";
 import { getGroupByUser, getGroup } from "../../api/apiGroup";
 import { getUserByUsername } from "../../api/apiUser";
@@ -20,11 +19,9 @@ import { uploadImage } from "../../ultis/uploadFile";
 import { NotifiContext } from "../../context/notifiContext";
 import { UserContext } from "../../context/userContext";
 
-const socket = io(apiURL);
-
 const Messenger = () => {
   const MAX_SIZE = useRef(2097000); // 2mb
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, socket } = useContext(UserContext);
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [oppositeUser, setOppositeUser] = useState({});
@@ -195,12 +192,7 @@ const Messenger = () => {
     <>
       {user && (
         <>
-          <Topbar
-            setConversations={setConversations}
-            user={user}
-            setUser={setUser}
-            socket={socket}
-          />
+          <Topbar setConversations={setConversations} socket={socket} />
           <div className="messenger">
             <div className="chatMenu" style={{ backgroundColor: "#EFFBFB" }}>
               <div className="chatMenuWrapper">

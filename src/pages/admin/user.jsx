@@ -47,8 +47,8 @@ const columns = [
     format: (value) => value.toFixed(2),
   },
   {
-    id: "describe",
-    label: "Mô tả",
+    id: "status",
+    label: "Trạng thái",
     // minWidth: 170,
     // align: "right",
     format: (value) => value.toFixed(2),
@@ -67,7 +67,7 @@ const UserMagager = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
   const { setNotifi } = useContext(NotifiContext);
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const fetchData = async () => {
     const res = await getAllUser();
@@ -78,9 +78,9 @@ const UserMagager = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
   const handleLockUser = async (email, lock) => {
     const res = await lockUser(user.id, email, lock);
-    console.log(res);
     if (res.statusCode !== "200") {
       setNotifi([res.message]);
       return;
@@ -103,7 +103,7 @@ const UserMagager = () => {
   };
   return (
     <>
-      <Topbar setConversations={null} user={user} setUser={setUser} />
+      <Topbar setConversations={null} />
       <Paper
         sx={{
           width: "98%",
@@ -157,6 +157,19 @@ const UserMagager = () => {
                           return (
                             <TableCell key={column.id} align={column.align}>
                               {value === false ? "Chưa khóa" : "Bị khóa"}
+                            </TableCell>
+                          );
+                        }
+                        if (column.id === "status") {
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {value === true ? (
+                                <p style={{ color: "#013ADF" }}>
+                                  Đang hoạt động
+                                </p>
+                              ) : (
+                                <p style={{ color: "#424242" }}>Ngoại tuyến</p>
+                              )}
                             </TableCell>
                           );
                         }
