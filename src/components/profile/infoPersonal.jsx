@@ -8,7 +8,7 @@ import { NotifiContext } from "../../context/notifiContext";
 import { uploadFile } from "../../ultis/uploadFile";
 
 export default function InfoPersonal({ user, setUser }) {
-  const MAX_SIZE = useRef(1048576000);
+  const MAX_SIZE = useRef(5242880);
   const { notifi, setNotifi } = useContext(NotifiContext);
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
@@ -27,16 +27,19 @@ export default function InfoPersonal({ user, setUser }) {
 
   const handleUpdateUser = async () => {
     if (avatar?.size > MAX_SIZE.current) {
-      setNotifi(["Ảnh phải nhỏ hơn 1 mb"]);
+      setNotifi(["Ảnh phải nhỏ hơn 5 mb"]);
       return;
     }
-    const url = await uploadFile(avatar);
+    let url = null;
+    if (avatar) {
+      url = await uploadFile(avatar);
+    }
     let newUser = {
       id: user.id,
       firstName: firstName,
       lastName: lastName,
       describe: describe,
-      avatar: avatar,
+      avatar: url,
     };
     const res = await updateUser(newUser);
     if (res.statusCode === "200") {

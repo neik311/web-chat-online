@@ -18,11 +18,13 @@ import { getUserByUsername } from "../../api/apiUser";
 import { getMessagesInGroup, createMessages } from "../../api/apiMessages";
 import { uploadImage } from "../../ultis/uploadFile";
 import { NotifiContext } from "../../context/notifiContext";
+import { UserContext } from "../../context/userContext";
 
 const socket = io(apiURL);
 
-const Messenger = ({ user, setUser }) => {
+const Messenger = () => {
   const MAX_SIZE = useRef(2097000); // 2mb
+  const { user, setUser } = useContext(UserContext);
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [oppositeUser, setOppositeUser] = useState({});
@@ -298,6 +300,7 @@ const Messenger = ({ user, setUser }) => {
                           <TextField
                             label="Nhập tin nhắn"
                             id="fullWidth"
+                            // variant="standard"
                             sx={{ width: "80%" }}
                             value={newMessage}
                             onChange={(e) => {

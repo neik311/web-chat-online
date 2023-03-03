@@ -1,10 +1,10 @@
-import "./topbar.css";
 import { Search, Person, Chat, Notifications } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useContext, useState } from "react";
+import "./topbar.css";
 import AlertDialogSlide from "../modalUser/popupUser";
 
 export default function Topbar({ setConversations, user, setUser, socket }) {
@@ -19,6 +19,7 @@ export default function Topbar({ setConversations, user, setUser, socket }) {
   const handleLogout = () => {
     localStorage.setItem("accessToken", "");
     localStorage.setItem("refreshToken", "");
+    socket.disconnect();
     setUser("");
     navigate("/login");
   };
@@ -40,9 +41,9 @@ export default function Topbar({ setConversations, user, setUser, socket }) {
           <Link
             to="/"
             style={{ textDecoration: "none" }}
-            onClick={() => {
-              window.location.reload();
-            }}
+            // onClick={() => {
+            //   window.location.reload();
+            // }}
           >
             <span className="logo">Nhắn tin online</span>
           </Link>
@@ -71,7 +72,7 @@ export default function Topbar({ setConversations, user, setUser, socket }) {
           <img
             onClick={handleClick}
             src={
-              user.avatar
+              user?.avatar
                 ? user.avatar
                 : "http://hethongxephangtudong.net/public/client/images/no-avatar.png"
             }
@@ -95,6 +96,15 @@ export default function Topbar({ setConversations, user, setUser, socket }) {
               Trang cá nhân
             </MenuItem>
             <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+            {user?.role === "admin" && (
+              <MenuItem
+                onClick={() => {
+                  navigate("/admin/user-manager");
+                }}
+              >
+                Quản lý
+              </MenuItem>
+            )}
           </Menu>
         </div>
       </div>

@@ -50,10 +50,7 @@ const Message = ({
             }}
           >
             <div className="messageTop">
-              <div
-                className="messageText"
-                style={{ marginRight: "10px", backgroundColor: "white" }}
-              >
+              <div style={{ marginRight: "10px" }}>
                 <img
                   src={message.messages}
                   alt=""
@@ -99,7 +96,7 @@ const Message = ({
                 }
                 alt=""
               />
-              <div className="messageText" style={{ backgroundColor: "white" }}>
+              <div>
                 <img
                   src={message.messages}
                   alt=""

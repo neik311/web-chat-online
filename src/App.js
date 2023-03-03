@@ -3,16 +3,18 @@ import Register from "./pages/register/Register";
 import Messenger from "./pages/messenger/Messenger";
 import Profile from "./pages/profile/profile";
 import ForgotPassword from "./pages/forgotPassword/forgotPassword";
+import UserMagager from "./pages/admin/user";
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { loginByToken } from "./api/apiUser";
 import OpenNotifi from "./hooks/openNotifi";
 import { NotifiContext } from "./context/notifiContext";
+import { UserContext } from "./context/userContext";
 
 function App() {
   // const { user } = useContext(AuthContext);
   const { notifi, setNotifi } = useContext(NotifiContext);
-  const [user, setUser] = useState();
+  const { user, setUser } = useContext(UserContext);
   useEffect(() => {
     const fetchData = async () => {
       const refreshToken = localStorage.getItem("refreshToken");
@@ -29,19 +31,10 @@ function App() {
   return (
     <>
       <Routes>
-        <Route
-          path=""
-          element={
-            user ? (
-              <Messenger user={user} setUser={setUser} />
-            ) : (
-              <Login setUser={setUser} />
-            )
-          }
-        />
+        <Route path="" element={user ? <Messenger /> : <Login />} />
       </Routes>
       <Routes>
-        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Routes>
         <Route path="/register" element={<Register />} />
@@ -50,18 +43,13 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
       <Routes>
-        <Route
-          path="/profile"
-          element={<Profile user={user} setUser={setUser} />}
-        />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Routes>
-        <Route
-          path="/messenger"
-          element={
-            user ? <Messenger user={user} setUser={setUser} /> : <Login />
-          }
-        />
+        <Route path="/messenger" element={user ? <Messenger /> : <Login />} />
+      </Routes>
+      <Routes>
+        <Route path="/admin/user-manager" element={<UserMagager />} />
       </Routes>
       {notifi[0] && <OpenNotifi notifi={notifi} setNotifi={setNotifi} />}
     </>

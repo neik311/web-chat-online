@@ -81,6 +81,38 @@ const getUser = async (textSearch) => {
     console.log(`${error}`);
   }
 };
+
+const getAllUser = async (textSearch) => {
+  try {
+    const res = await axios.get(`${apiURL}/user/get-all-user`);
+    return res.data;
+  } catch (error) {
+    console.log(`${error}`);
+  }
+};
+
+const lockUser = async (sender, email, lock) => {
+  try {
+    const fetchData = async () => {
+      const body = { sender, email, lock };
+      const headers = {
+        headers: { access_token: localStorage.getItem("accessToken") },
+      };
+      const res = await axios.post(`${apiURL}/user/lock-user`, body, headers);
+      return res.data;
+    };
+    let data = await fetchData();
+    if (data.statusCode === "410") {
+      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      localStorage.setItem("accessToken", user.data.accessToken);
+      data = await fetchData();
+    }
+    return data;
+  } catch (error) {
+    console.log(`${error}`);
+  }
+};
+
 export {
   login,
   registerUser,
@@ -89,4 +121,6 @@ export {
   updateUser,
   getUser,
   forgotPassword,
+  getAllUser,
+  lockUser,
 };

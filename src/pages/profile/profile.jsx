@@ -11,10 +11,12 @@ import InfoPersonal from "../../components/profile/infoPersonal";
 import ListBlock from "../../components/profile/listBlock";
 import back from "../../assets/go-back.png";
 import "./profile.css";
+import { UserContext } from "../../context/userContext";
 
-const Profile = ({ user, setUser }) => {
+const Profile = () => {
+  const { user, setUser } = useContext(UserContext);
   const [value, setValue] = useState("1");
-  const navigate = useNavigate("");
+  const navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

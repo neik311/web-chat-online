@@ -17,6 +17,7 @@ export default function Register() {
   const [passwordAgain, setPasswordAgain] = useState("");
   const [describe, setDescribe] = useState("");
   const [avatar, setAvatar] = useState();
+  const [base64image, setBase64image] = useState("");
   const [loading, setLoading] = useState(false);
   const { notifi, setNotifi } = useContext(NotifiContext);
   const navigate = useNavigate("");
@@ -62,6 +63,16 @@ export default function Register() {
     }
     setNotifi([res.message]);
     setLoading(false);
+  };
+
+  const onChangeFile = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      setBase64image(event.target.result.toString());
+    };
+    reader.readAsDataURL(file);
+    setAvatar(file);
   };
 
   return (
@@ -163,17 +174,27 @@ export default function Register() {
                   setDescribe(e.target.value);
                 }}
               />
-              <TextField
-                id="outlined-basic-7"
-                label="Ảnh đại diện"
-                variant="outlined"
-                type="file"
-                required
-                onChange={(e) => {
-                  setAvatar(e.target.files[0]);
-                }}
-                sx={{ paddingLeft: "150px", width: "300px" }}
-              />
+              <div style={{ display: "inline-block" }}>
+                <TextField
+                  id="outlined-basic-7"
+                  label="Ảnh đại diện"
+                  variant="outlined"
+                  type="file"
+                  required
+                  onChange={onChangeFile}
+                  sx={{ paddingLeft: "130px", width: "250px" }}
+                />
+                {base64image && (
+                  <img
+                    style={{
+                      width: "auto",
+                      height: "80px",
+                      marginLeft: "20px",
+                    }}
+                    src={base64image}
+                  />
+                )}
+              </div>
               {loading === false ? (
                 <button className="loginButton" type="submit">
                   Đăng ký
@@ -183,16 +204,18 @@ export default function Register() {
                   <OpenLoading />
                 </div>
               )}
-              <button
-                className="loginRegisterButton"
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                <p style={{ color: "white", textDecoration: "none" }}>
-                  Đăng nhập
-                </p>
-              </button>
+              <div style={{ marginLeft: "20%" }}>
+                <span>Bạn đã có tài khoản ? </span>
+                <span
+                  className="loginForgot"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  Đăng nhập ngay
+                </span>
+              </div>
             </form>
           </div>
         </div>

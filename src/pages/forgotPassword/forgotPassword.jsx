@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../login/login.css";
 import CircularProgress from "@mui/material/CircularProgress";
-import { forgotPassword } from "../../api/apiUser";
 import TextField from "@mui/material/TextField";
+import "../login/login.css";
+import { forgotPassword } from "../../api/apiUser";
 import { NotifiContext } from "../../context/notifiContext";
 
-export default function ForgotPassword({ setUser }) {
+export default function ForgotPassword() {
   const { notifi, setNotifi } = useContext(NotifiContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -10,7 +10,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function OpenNotifi({ notifi, setNotifi }) {
-  //   const notifi = "aloooooooooooooo";
   const [open, setOpen] = useState(true);
 
   const handleClose = (event, reason) => {

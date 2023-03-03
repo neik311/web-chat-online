@@ -5,13 +5,14 @@ import { CircularProgress } from "@material-ui/core";
 import { login } from "../../api/apiUser";
 import TextField from "@mui/material/TextField";
 import { NotifiContext } from "../../context/notifiContext";
+import { UserContext } from "../../context/userContext";
 
-export default function Login({ setUser }) {
-  const { notifi, setNotifi } = useContext(NotifiContext);
+export default function Login() {
+  const { setNotifi } = useContext(NotifiContext);
+  const { user, setUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const isFetching = true;
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -85,14 +86,18 @@ export default function Login({ setUser }) {
             >
               Quên mật khẩu?
             </span>
-            <button
-              className="loginRegisterButton"
-              onClick={() => {
-                navigate("/register");
-              }}
-            >
-              <p style={{ color: "white", textDecoration: "none" }}>Đăng ký</p>
-            </button>
+            <div style={{ marginLeft: "20%" }}>
+              <span>Bạn chưa có tài khoản ? </span>
+              <span
+                className="loginForgot"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                Đăng ký ngay
+              </span>
+            </div>
           </form>
         </div>
       </div>
