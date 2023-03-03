@@ -1,7 +1,7 @@
+import { useEffect, useState, useRef, useContext } from "react";
 import "./messenger.css";
 import send from "../../assets/send.png";
 import CircularProgress from "@mui/material/CircularProgress";
-import image from "../../assets/image.png";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Topbar from "../../components/topbar/Topbar";
@@ -10,8 +10,6 @@ import MessageText from "../../components/message/messageText";
 import MessageImage from "../../components/message/messageImage";
 import ChatOnline from "../../components/chatOnline/chatOnline";
 import InfoUser from "../../components/infoUser/infoUser";
-import { useEffect, useState, useRef, useContext } from "react";
-import { apiURL } from "../../config/config";
 import { getGroupByUser, getGroup } from "../../api/apiGroup";
 import { getUserByUsername } from "../../api/apiUser";
 import { getMessagesInGroup, createMessages } from "../../api/apiMessages";
@@ -36,10 +34,8 @@ const Messenger = () => {
   const { setNotifi } = useContext(NotifiContext);
   // console.log(conversations);
   const inputFile = useRef(null);
-  // console.log(image);
 
   useEffect(() => {
-    //console.log("current chat ",currentChat)
     socket.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,

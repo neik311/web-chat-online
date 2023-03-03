@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useContext, useState } from "react";
-import "./topbar.css";
 import AlertDialogSlide from "../modalUser/popupUser";
 import { UserContext } from "../../context/userContext";
+import "./topbar.css";
 
 export default function Topbar({ setConversations, socket }) {
   const { user, setUser } = useContext(UserContext);

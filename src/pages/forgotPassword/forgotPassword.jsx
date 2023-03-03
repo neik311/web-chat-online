@@ -2,9 +2,9 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
-import "../login/login.css";
 import { forgotPassword } from "../../api/apiUser";
 import { NotifiContext } from "../../context/notifiContext";
+import "../login/login.css";
 
 export default function ForgotPassword() {
   const { notifi, setNotifi } = useContext(NotifiContext);

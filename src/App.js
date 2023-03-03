@@ -12,7 +12,6 @@ import { NotifiContext } from "./context/notifiContext";
 import { UserContext } from "./context/userContext";
 
 function App() {
-  // const { user } = useContext(AuthContext);
   const { notifi, setNotifi } = useContext(NotifiContext);
   const { user, setUser } = useContext(UserContext);
   useEffect(() => {

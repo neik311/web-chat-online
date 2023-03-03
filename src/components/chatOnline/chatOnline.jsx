@@ -2,17 +2,6 @@ import "./chatOnline.css";
 import { useState, useEffect } from "react";
 
 const ChatOnline = ({ onlineUsers, currentId }) => {
-  const [online, setOnline] = useState([]);
-  useEffect(() => {
-    let newOnline = [];
-    newOnline = onlineUsers.filter((u) => u.id !== currentId);
-    if (newOnline.length === 0) {
-      setOnline((online) => []);
-      return;
-    }
-  }, [onlineUsers, currentId]);
-
-  // console.log("all user online ",online)
   return (
     <>
       <h3>Người dùng trực tuyến</h3>

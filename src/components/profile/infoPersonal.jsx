@@ -8,8 +8,8 @@ import { NotifiContext } from "../../context/notifiContext";
 import { uploadFile } from "../../ultis/uploadFile";
 
 export default function InfoPersonal({ user, setUser }) {
-  const MAX_SIZE = useRef(5242880);
-  const { notifi, setNotifi } = useContext(NotifiContext);
+  const MAX_SIZE = useRef(5242880); // 5mb
+  const { setNotifi } = useContext(NotifiContext);
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");

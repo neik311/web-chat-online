@@ -1,11 +1,11 @@
 import { useRef, useState, useContext } from "react";
-import "./register.css";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/apiUser";
 import TextField from "@mui/material/TextField";
 import { uploadFile } from "../../ultis/uploadFile";
 import { NotifiContext } from "../../context/notifiContext";
 import OpenLoading from "../../hooks/openLoading";
+import "./register.css";
 
 export default function Register() {
   const MAX_SIZE = useRef(5242880); // 5mb
@@ -19,7 +19,7 @@ export default function Register() {
   const [avatar, setAvatar] = useState();
   const [base64image, setBase64image] = useState("");
   const [loading, setLoading] = useState(false);
-  const { notifi, setNotifi } = useContext(NotifiContext);
+  const { setNotifi } = useContext(NotifiContext);
   const navigate = useNavigate("");
 
   const handleClick = async (e) => {
