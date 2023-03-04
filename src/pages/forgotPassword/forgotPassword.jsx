@@ -76,7 +76,7 @@ export default function ForgotPassword() {
               required
               type="password"
               id="outlined-basic"
-              label="Mật khẩu"
+              label="Mật khẩu mới"
               variant="outlined"
               minLength="6"
               value={password}
@@ -89,7 +89,7 @@ export default function ForgotPassword() {
               required
               type="password"
               id="outlined-basic"
-              label="Nhập lại mật khẩu"
+              label="Nhập lại mật khẩu mới"
               variant="outlined"
               minLength="6"
               value={confirmPassword}
@@ -109,17 +109,18 @@ export default function ForgotPassword() {
                 "Xác nhận"
               )}
             </button>
-            <span className="loginForgot">Bạn đã có tài khoản ?</span>
-            <button
-              className="loginRegisterButton"
-              onClick={() => {
-                navigate("/login");
-              }}
-            >
-              <p style={{ color: "white", textDecoration: "none" }}>
-                Đăng nhập
-              </p>
-            </button>
+            <div style={{ marginLeft: "20%" }}>
+              <span>Bạn đã có tài khoản ? </span>
+              <span
+                className="loginForgot"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Đăng nhập ngay
+              </span>
+            </div>
           </form>
         </div>
       </div>
