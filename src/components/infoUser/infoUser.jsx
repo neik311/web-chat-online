@@ -1,7 +1,7 @@
 import "./infoUser.css";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { NotifiContext } from "../../context/notifiContext";
 import { UserContext } from "../../context/userContext";
 import { deleteGroup, getGroupByUser } from "../../api/apiGroup";

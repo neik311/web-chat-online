@@ -5,7 +5,7 @@ import Profile from "./pages/profile/profile";
 import ForgotPassword from "./pages/forgotPassword/forgotPassword";
 import UserMagager from "./pages/admin/user";
 import { Route, Routes } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { loginByToken } from "./api/apiUser";
 import OpenNotifi from "./hooks/openNotifi";
 import { NotifiContext } from "./context/notifiContext";

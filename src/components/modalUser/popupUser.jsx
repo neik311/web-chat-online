@@ -36,7 +36,7 @@ export default function AlertDialogSlide({
 }) {
   const [foundUser, setFoundUser] = useState();
   const [statusButton, setStatusButton] = useState([true, true]);
-  const { notifi, setNotifi } = useContext(NotifiContext);
+  const { setNotifi } = useContext(NotifiContext);
 
   useEffect(() => {
     const fetchData = async () => {

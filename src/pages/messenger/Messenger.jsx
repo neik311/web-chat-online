@@ -19,7 +19,7 @@ import { UserContext } from "../../context/userContext";
 
 const Messenger = () => {
   const MAX_SIZE = useRef(2097000); // 2mb
-  const { user, setUser, socket } = useContext(UserContext);
+  const { user, socket } = useContext(UserContext);
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [oppositeUser, setOppositeUser] = useState({});
