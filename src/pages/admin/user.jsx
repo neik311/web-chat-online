@@ -10,7 +10,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Topbar from "../../components/topbar/Topbar";
-import { useEffect, useState, useRef, useContext } from "react";
+import TextField from "@mui/material/TextField";
+import { useEffect, useState, useContext } from "react";
 import { NotifiContext } from "../../context/notifiContext";
 import { UserContext } from "../../context/userContext";
 import { getAllUser, lockUser } from "../../api/apiUser";
@@ -55,6 +56,7 @@ const UserMagager = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
+  const [textSearch, setTextSearch] = useState("");
   const { setNotifi } = useContext(NotifiContext);
   const { user } = useContext(UserContext);
 
@@ -90,6 +92,30 @@ const UserMagager = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const handleSearch = async () => {
+    const rowsData = (await getAllUser()).data;
+    if (textSearch === "") {
+      setRows(rowsData);
+      return;
+    }
+    let text = textSearch.toLowerCase();
+    let newRows = [];
+    rowsData.map((row) => {
+      if (
+        row.id.toLowerCase().includes(text) ||
+        row.firstName.toLowerCase().includes(text) ||
+        row.lastName.toLowerCase().includes(text) ||
+        row.email.toLowerCase().includes(text) ||
+        row.lock.toString() == text ||
+        row.status.toString() == text
+      ) {
+        newRows.push(row);
+      }
+    });
+    setRows(newRows);
+  };
+
   return (
     <>
       <Topbar setConversations={null} />
@@ -105,10 +131,30 @@ const UserMagager = () => {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <TableCell align="center" colSpan={2}>
-                  Quản lý người dùng
+                <TableCell align="center" colSpan={4}>
+                  <h1>Quản lý người dùng</h1>
                 </TableCell>
-                <TableCell align="center" colSpan={3}></TableCell>
+                <TableCell align="center" colSpan={4}>
+                  <div style={{ marginLeft: "20%" }}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Tìm kiếm"
+                      variant="outlined"
+                      size="small"
+                      value={textSearch}
+                      onChange={(e) => {
+                        setTextSearch(e.target.value);
+                      }}
+                    />
+                    <Button
+                      variant="outlined"
+                      style={{ marginLeft: "10px", marginTop: "2px" }}
+                      onClick={handleSearch}
+                    >
+                      Tìm kiếm
+                    </Button>
+                  </div>
+                </TableCell>
               </TableRow>
               <TableRow>
                 {columns.map((column) => (
