@@ -167,7 +167,7 @@ export default function AlertDialogSlide({
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ minWidth: "230px" }}>
-          {foundUser && (
+          {foundUser && foundUser?.id !== userId && (
             <>
               <Button
                 onClick={handleGroup}

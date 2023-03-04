@@ -227,7 +227,7 @@ const Messenger = () => {
                 {currentChat ? (
                   <>
                     <div className="chatBoxTop">
-                      {oppositeUser.id &&
+                      {oppositeUser?.id &&
                         messages.map((m, index) => {
                           return (
                             <>

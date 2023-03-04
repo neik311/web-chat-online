@@ -27,19 +27,23 @@ const Conversation = ({ conversation, currentUser }) => {
   }, [currentUser, conversation]);
 
   return (
-    <div className="conversation">
-      <img
-        className="conversationImg"
-        src={
-          user.avatar
-            ? user.avatar
-            : "https://i0.wp.com/researchictafrica.net/wp/wp-content/uploads/2016/10/default-profile-pic.jpg?ssl=1"
-        }
-        alt=""
-      />
+    <>
+      {user && (
+        <div className="conversation">
+          <img
+            className="conversationImg"
+            src={
+              user?.avatar
+                ? user?.avatar
+                : "https://i0.wp.com/researchictafrica.net/wp/wp-content/uploads/2016/10/default-profile-pic.jpg?ssl=1"
+            }
+            alt=""
+          />
 
-      <span className="conversationName">{user.id}</span>
-    </div>
+          <span className="conversationName">{user?.id}</span>
+        </div>
+      )}
+    </>
   );
 };
 
