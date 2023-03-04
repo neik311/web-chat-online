@@ -15,6 +15,7 @@ function App() {
   const { notifi, setNotifi } = useContext(NotifiContext);
   const { user, setUser } = useContext(UserContext);
   useEffect(() => {
+    // check login
     const fetchData = async () => {
       const res = await loginByToken();
       console.log(res);

@@ -110,7 +110,6 @@ export default function AlertDialogSlide({
     if (res.statusCode === "200") {
       setNotifi([`Hủy Chặn ${foundUser?.id} thành công`, "success"]);
       setStatusButton([statusButton[0], true]);
-      handleConversations();
       return;
     }
     setNotifi([res?.message]);
