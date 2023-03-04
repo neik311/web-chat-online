@@ -23,7 +23,7 @@ const createMessages = async (groupId, messages, sender, type) => {
     };
     let data = await fetchData();
     if (data.statusCode === "410") {
-      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      const user = await loginByToken();
       localStorage.setItem("accessToken", user.data.accessToken);
       data = await fetchData();
     }
@@ -58,7 +58,7 @@ const deleteMessagesInGroup = async (sender, messagesId) => {
     };
     let data = await fetchData();
     if (data.statusCode === "410") {
-      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      const user = await loginByToken();
       localStorage.setItem("accessToken", user.data.accessToken);
       data = await fetchData();
     }

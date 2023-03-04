@@ -16,8 +16,7 @@ function App() {
   const { user, setUser } = useContext(UserContext);
   useEffect(() => {
     const fetchData = async () => {
-      const refreshToken = localStorage.getItem("refreshToken");
-      const res = await loginByToken(refreshToken);
+      const res = await loginByToken();
       console.log(res);
       if (res?.statusCode === "200") {
         localStorage.setItem("accessToken", res.data?.accessToken);

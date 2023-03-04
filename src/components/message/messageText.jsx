@@ -1,28 +1,46 @@
-import "./message.css";
-import Line from "./Line";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
+import { NotifiContext } from "../../context/notifiContext";
+import Line from "./Line";
+import "./message.css";
 import { deleteMessagesInGroup } from "../../api/apiMessages";
 
 const Message = ({
-  message,
   own,
   messages,
   profilePicture,
   index,
   userId,
   setMessages,
+  socket,
+  currentChat,
 }) => {
+  const message = messages[index];
+  const { setNotifi } = useContext(NotifiContext);
   const scrollref = useRef();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [openDialog, setOpenDialog] = useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+    handleClose();
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   useEffect(() => {
@@ -31,8 +49,18 @@ const Message = ({
 
   const handleDeleteMessage = async () => {
     const res = await deleteMessagesInGroup(userId, message.id);
-    const newMessages = messages.filter((m) => m.id !== message.id);
-    setMessages(newMessages);
+    if (res.statusCode === "200") {
+      const newMessages = messages.filter((m) => m.id !== message.id);
+      socket.emit("deleteMessage", {
+        receiverId:
+          currentChat.receive === userId
+            ? currentChat.sender
+            : currentChat.receive,
+      });
+      setMessages(newMessages);
+      setNotifi(["Xóa tin nhắn thành công", "success"]);
+    }
+    handleCloseDialog();
   };
 
   return (
@@ -81,7 +109,7 @@ const Message = ({
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem onClick={handleDeleteMessage}>Xóa</MenuItem>
+                <MenuItem onClick={handleClickOpenDialog}>Xóa</MenuItem>
               </Menu>
             </div>
           </div>
@@ -111,6 +139,22 @@ const Message = ({
           </div>
         </>
       )}
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Xác nhận xóa tin nhắn"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Hủy</Button>
+          <Button onClick={handleDeleteMessage} autoFocus>
+            Xác nhận
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

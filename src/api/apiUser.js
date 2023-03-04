@@ -3,21 +3,24 @@ import { apiURL } from "../config/config";
 
 const login = async (email, password) => {
   try {
-    const res = await axios.post(`${apiURL}/user/login`, {
+    const body = {
       email: email,
       password: password,
-    });
+    };
+    const res = await axios.post(`${apiURL}/user/login`, body);
     return res.data;
   } catch (error) {
     console.log(`${error}`);
   }
 };
 
-const loginByToken = async (refreshToken) => {
+const loginByToken = async () => {
   try {
-    const res = await axios.post(`${apiURL}/user/login-token`, {
+    const refreshToken = localStorage.getItem("refreshToken");
+    const body = {
       refreshToken: refreshToken,
-    });
+    };
+    const res = await axios.post(`${apiURL}/user/login-token`, body);
     return res.data;
   } catch (error) {
     console.log(`${error}`);
@@ -61,7 +64,7 @@ const updateUser = async (newUser) => {
     };
     let data = await fetchData();
     if (data.statusCode === "410") {
-      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      const user = await loginByToken();
       localStorage.setItem("accessToken", user.data.accessToken);
       data = await fetchData();
     }
@@ -103,7 +106,7 @@ const lockUser = async (sender, email, lock) => {
     };
     let data = await fetchData();
     if (data.statusCode === "410") {
-      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      const user = await loginByToken();
       localStorage.setItem("accessToken", user.data.accessToken);
       data = await fetchData();
     }

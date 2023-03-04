@@ -5,20 +5,23 @@ import { loginByToken } from "./apiUser";
 const createGroup = async (sender, receive) => {
   try {
     const fetchData = async () => {
+      const body = {
+        sender: sender,
+        receive: receive,
+      };
+      const headers = {
+        headers: { access_token: localStorage.getItem("accessToken") },
+      };
       const res = await axios.post(
         `${apiURL}/group/create-group`,
-        {
-          sender: sender,
-          receive: receive,
-        },
-        { headers: { access_token: localStorage.getItem("accessToken") } }
+        body,
+        headers
       );
       return res.data;
     };
     let data = await fetchData();
-    // console.log(data);
     if (data.statusCode === "410") {
-      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      const user = await loginByToken();
       localStorage.setItem("accessToken", user.data.accessToken);
       data = await fetchData();
     }
@@ -51,20 +54,23 @@ const getGroup = async (sender, receive) => {
 const deleteGroup = async (sender, receive) => {
   try {
     const fetchData = async () => {
+      const body = {
+        sender: sender,
+        receive: receive,
+      };
+      const headers = {
+        headers: { access_token: localStorage.getItem("accessToken") },
+      };
       const res = await axios.put(
         `${apiURL}/group/delete-group`,
-        {
-          sender: sender,
-          receive: receive,
-        },
-        { headers: { access_token: localStorage.getItem("accessToken") } }
+        body,
+        headers
       );
       return res.data;
     };
     let data = await fetchData();
-    // console.log(data);
     if (data.statusCode === "410") {
-      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      const user = await loginByToken();
       localStorage.setItem("accessToken", user.data.accessToken);
       data = await fetchData();
     }

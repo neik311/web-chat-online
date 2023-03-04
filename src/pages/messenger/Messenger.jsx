@@ -30,9 +30,10 @@ const Messenger = () => {
   const [image, setImage] = useState();
   const [base64image, setBase64image] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadData, setLoadData] = useState(0);
   const [textSearch, setTextSearch] = useState("");
   const { setNotifi } = useContext(NotifiContext);
-  // console.log(conversations);
+
   const inputFile = useRef(null);
 
   useEffect(() => {
@@ -43,6 +44,9 @@ const Messenger = () => {
         type: data.type,
         createAt: Date.now(),
       });
+    });
+    socket.on("getDeleteMessage", () => {
+      setLoadData((loadData) => ++loadData);
     });
   }, []);
 
@@ -63,7 +67,7 @@ const Messenger = () => {
       const found = await getGroup(user.id, u.id);
       if (found.data) {
         newUser.push(u);
-        console.log(newUser);
+        // console.log(newUser);
         setOnlineUsers(newUser);
       }
     });
@@ -115,7 +119,7 @@ const Messenger = () => {
       }
     };
     fetchData();
-  }, [currentChat]);
+  }, [currentChat, loadData]);
 
   const onChangeFile = (e) => {
     const file = e.target.files[0];
@@ -240,11 +244,12 @@ const Messenger = () => {
                                   index={index}
                                   userId={user.id}
                                   setMessages={setMessages}
+                                  socket={socket}
+                                  currentChat={currentChat}
                                   key={index}
                                 />
                               ) : (
                                 <MessageImage
-                                  message={m}
                                   own={m.sender === user.id}
                                   messages={messages}
                                   profilePicture={
@@ -255,6 +260,8 @@ const Messenger = () => {
                                   index={index}
                                   userId={user.id}
                                   setMessages={setMessages}
+                                  socket={socket}
+                                  currentChat={currentChat}
                                   key={index}
                                 />
                               )}

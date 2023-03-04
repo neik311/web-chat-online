@@ -16,19 +16,23 @@ const getBlockUser = async (blocker, blocked) => {
 const createBlockUser = async (blocker, blocked) => {
   try {
     const fetchData = async () => {
+      const body = {
+        blocker: blocker,
+        blocked: blocked,
+      };
+      const headers = {
+        headers: { access_token: localStorage.getItem("accessToken") },
+      };
       const res = await axios.post(
         `${apiURL}/block-user/create-block-user`,
-        {
-          blocker: blocker,
-          blocked: blocked,
-        },
-        { headers: { access_token: localStorage.getItem("accessToken") } }
+        body,
+        headers
       );
       return res.data;
     };
     let data = await fetchData();
     if (data.statusCode === "410") {
-      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      const user = await loginByToken();
       localStorage.setItem("accessToken", user.data.accessToken);
       data = await fetchData();
     }
@@ -41,15 +45,18 @@ const createBlockUser = async (blocker, blocked) => {
 const deleteBlockUser = async (blocker, blocked) => {
   try {
     const fetchData = async () => {
+      const headers = {
+        headers: { access_token: localStorage.getItem("accessToken") },
+      };
       const res = await axios.delete(
         `${apiURL}/block-user/delete-block-user/${blocker}/${blocked}`,
-        { headers: { access_token: localStorage.getItem("accessToken") } }
+        headers
       );
       return res.data;
     };
     let data = await fetchData();
     if (data.statusCode === "410") {
-      const user = await loginByToken(localStorage.getItem("refreshToken"));
+      const user = await loginByToken();
       localStorage.setItem("accessToken", user.data.accessToken);
       data = await fetchData();
     }

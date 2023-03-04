@@ -1,5 +1,5 @@
-import "./chatOnline.css";
 import { useState, useEffect } from "react";
+import "./chatOnline.css";
 
 const ChatOnline = ({ onlineUsers, currentId }) => {
   return (
