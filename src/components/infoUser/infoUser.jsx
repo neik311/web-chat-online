@@ -1,27 +1,21 @@
 import "./infoUser.css";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../../config/firebase";
 import { useState, useContext } from "react";
 import { NotifiContext } from "../../context/notifiContext";
+import { UserContext } from "../../context/userContext";
 import { deleteGroup, getGroupByUser } from "../../api/apiGroup";
 import { createBlockUser } from "../../api/apiBlock";
-const InfoUser = ({
-  oppositeUser,
-  user,
-  setUser,
-  setConversations,
-  setOppositeUser,
-}) => {
-  const { notifi, setNotifi } = useContext(NotifiContext);
-  const [file, setFile] = useState();
-  const [stateFile, setStateFile] = useState("Submit");
+
+const InfoUser = ({ oppositeUser, setConversations, setOppositeUser }) => {
+  const { user, setUser, socket } = useContext(UserContext);
+  const { setNotifi } = useContext(NotifiContext);
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.setItem("accessToken", "");
     localStorage.setItem("refreshToken", "");
     setUser("");
+    socket.disconnect();
     navigate("/login");
     setNotifi(["Đăng xuất thành công", "acccess"]);
   };

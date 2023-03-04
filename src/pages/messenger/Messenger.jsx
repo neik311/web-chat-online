@@ -342,8 +342,6 @@ const Messenger = () => {
               <div className="chatOnlineWrapper">
                 <InfoUser
                   oppositeUser={oppositeUser}
-                  user={user}
-                  setUser={setUser}
                   setConversations={setConversations}
                   setOppositeUser={setOppositeUser}
                 />
