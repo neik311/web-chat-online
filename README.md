@@ -10,8 +10,8 @@
 - Nhắn tin văn bản, hình ảnh và xóa tin nhắn
 ## Một số hình ảnh
 <p float="left">
-<img src=https://firebasestorage.googleapis.com/v0/b/messenger-da484.appspot.com/o/demo%2Fweb_1.png?alt=media&token=d62e921f-a9d1-4b6d-8798-c31170cd2bc0" height="200">
-<img src="https://firebasestorage.googleapis.com/v0/b/messenger-da484.appspot.com/o/demo%2Fweb_2.png?alt=media&token=ad9a66f2-f50b-47c4-8b88-120080be1ef9" height="200">
+<img src=https://firebasestorage.googleapis.com/v0/b/messenger-da484.appspot.com/o/demo%2Fweb_1.png?alt=media&token=d62e921f-a9d1-4b6d-8798-c31170cd2bc0" height="220">
+<img src="https://firebasestorage.googleapis.com/v0/b/messenger-da484.appspot.com/o/demo%2Fweb_2.png?alt=media&token=ad9a66f2-f50b-47c4-8b88-120080be1ef9" height="220">
 </p>
 <p float="left">
 <img src="https://firebasestorage.googleapis.com/v0/b/messenger-da484.appspot.com/o/demo%2Fweb_3.png?alt=media&token=ae5f4809-e124-4597-9eea-3d2f92ba6264" height="300">
