@@ -59,7 +59,7 @@ const Messenger = () => {
 
   useEffect(() => {
     socket.emit("addUser", { id: user?.id, avatar: user?.avatar });
-  }, []);
+  }, [user]);
 
   const fetchOnlineUser = async (users) => {
     const newUser = [];
